@@ -20,12 +20,24 @@ module.exports = function(socket){
 
 	if(socket)
 	{
-		socketListeners(socket);
+		socket.on("disconnect",function(){
+			log.info("Déconnexion socket");
+		})
+
+		socket.on("login",function(infos){
+			this.username = infos.username;
+			this.setPassword(infos.password);
+			this.check();
+			if(this.trusted)
+			{
+				log.info(this.username+" c'est connecté");
+				socket.emit("login",{success: true,infos: this.infos});
+			}
+			else
+			{
+				log.warn("Mauvaise identification");
+				socket.emit("login",{success: false,infos: infos});
+			}
+		}.bind(this));
 	}
 };
-
-function socketListeners(socket){
-	socket.on("disconnect",function(){
-		log.info("Déconnexion socket");
-	})
-}

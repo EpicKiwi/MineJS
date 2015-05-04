@@ -9,18 +9,18 @@
 		<link rel="stylesheet" type="text/css" href="/static/icons/foundation-icons.css"/>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
 	</head>
-	<body>
+	<body ng-controller="globalController">
 
 		<div id="display">
 
 		<div id="start-panel" class="panel">
 
-			<div id="login-form">
+			<div id="login-form" ng-controller="loginController">
 				<h1>MineJS</h1>
-				<div class="logBox">
-					<form>
-						<input type="text" placeholder="Nom d'utilisateur"/>
-						<input type="password" placeholder="Mot de passe"/>
+				<div class="logBox" ng-class="{error:loginFail}">
+					<form ng-submit="logIn()">
+						<input type="text" placeholder="Nom d'utilisateur" ng-model="username" />
+						<input type="password" placeholder="Mot de passe" ng-model="password" />
 						<input type="submit" vlaue="Se conecter"/>
 					</form>
 				</div>
@@ -44,6 +44,6 @@
 	<script src="/static/js/tweenMax.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/static/js/angular-socket-io/socket.js"></script>
-	<script src="/static/js/app.js"></script>
+	<script src="/static/js/MineJS.js"></script>
 	</body>
 </html>

@@ -80,11 +80,12 @@ function check(username,password)
 function hashString(str)
 {
 	var shahash = crypto.createHash('sha1');
-	shahash.update(string);
+	shahash.update(str);
 	var result = shahash.digest('hex');
 	return result;
 }
 
 exports.getUsers = getUsers;
 exports.getInfos = getInfos;
+exports.hashString = hashString;
 exports.check = check;
