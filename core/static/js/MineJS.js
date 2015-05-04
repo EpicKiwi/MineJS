@@ -16,8 +16,10 @@ app.factory("socket",function(socketFactory){
 	return socketFactory();
 });
 
-app.controller("globalController",function($scope){
-
+app.controller("globalController",function($scope,userFactory){
+	$scope.isLogged = function(){
+		return userFactory.logged;
+	}
 });
 
 app.controller("loginController",function($scope,socket,userFactory){
