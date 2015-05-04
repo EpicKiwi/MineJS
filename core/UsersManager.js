@@ -85,7 +85,6 @@ function hashString(str)
 	return result;
 }
 
-exports.init = init;
 exports.getUsers = getUsers;
 exports.getInfos = getInfos;
 exports.check = check;

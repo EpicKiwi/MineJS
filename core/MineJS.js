@@ -9,6 +9,7 @@ var log = require("./Logger");
 var setupManager = require("./SetupManager");
 var MinecraftServer = require("./MinecraftServer");
 var UsersManager = require("./UsersManager");
+var User = require("./User");
 
 var config = {};
 
@@ -28,7 +29,7 @@ function init(){
 
 	//URL principal
 	expressApp.get("/",function(request,response){
-		response.send("Hello world");
+		response.sendFile(__dirname+"/html/index.html");
 	});
 
 	//URL de debug non utilisée en prod
@@ -38,8 +39,8 @@ function init(){
 
 	//Initialisation des sockets
 	io.on("connection",function(socket){
-		log.info("Connection socket");
-		var User = new User(socket);
+		log.info("Connexion socket");
+		var user = new User(socket);
 	});
 	//Démarrage du serveur
 	http.listen(config.port,function(){
