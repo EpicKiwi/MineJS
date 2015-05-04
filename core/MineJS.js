@@ -32,7 +32,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(config));
+		response.send(JSON.stringify(MinecraftServer.getOnlinePlayers()));
 	});
 
 	//Démarrage du serveur

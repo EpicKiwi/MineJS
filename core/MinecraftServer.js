@@ -13,6 +13,7 @@ var process = null;
 var running = false;
 var emitter = new events.EventEmitter();
 var lastCommand = null;
+var onlinePlayers = [];
 
 function getAbsolutePath()
 {
@@ -135,6 +136,20 @@ function eventDispatcher(){
 			log.error("Minecraft : Commande "+lastCommand+" inconnue");
 			emitter.emit("badCommand",lastCommand);
 		}
+		else if(message.search(/(.*) joined the game/i) != -1)
+		{
+			var playerName = message.replace(/(.*) joined the game/i,"$1");
+			log.info("Minecraft : Connexion de "+playerName);
+			onlinePlayers.push(playerName);
+			emitter.emit("playerConnect",playerName);
+		}
+		else if(message.search(/(.*) left the game/i) != -1)
+		{
+			var playerName = message.replace(/(.*) left the game/i,"$1");
+			log.info("Minecraft : Deconnexion de "+playerName);
+			onlinePlayers.splice(onlinePlayers.indexOf(playerName),1);
+			emitter.emit("playerDisconnect",playerName);
+		}
 	});
 }
 
@@ -153,4 +168,8 @@ exports.isRunning = function(){
 
 exports.getEmitter = function(){
 	return emitter;
+}
+
+exports.getOnlinePlayers = function(){
+	return onlinePlayers;
 }
