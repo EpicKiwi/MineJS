@@ -34,7 +34,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(MinecraftServer.isOutdated());
+		MinecraftServer.install();
 	});
 
 	//Initialisation des sockets

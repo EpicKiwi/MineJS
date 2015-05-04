@@ -5,6 +5,7 @@ var events = require('events');
 var MineJS = require("./MineJS");
 var log = require("./Logger");
 var VersionsManager = require('./MinecraftVersionManager');
+var SetupManager = require("./SetupManager");
 
 var folder = "";
 var executable = null;
@@ -167,11 +168,19 @@ function isOutdated(){
 	}
 }
 
+function install(){
+	SetupManager.checkFolder(getAbsolutePath());
+	VersionsManager.downloadLatest(getAbsolutePath(),function(){
+		log.info("Minecraft : Serveur téléchargé");
+	});
+}
+
 exports.getPath = getAbsolutePath;
 exports.init = init;
 exports.run = run;
 exports.sendCommand = sendCommand;
 exports.isOutdated = isOutdated;
+exports.install = install;
 
 exports.getVersion = function(){
 	return version;
