@@ -9,6 +9,7 @@ var executable = null;
 var version = null;
 var ram = 2048;
 var process = null;
+var running = false;
 
 function getAbsolutePath()
 {
@@ -61,6 +62,7 @@ function searchExecutable()
 function run()
 {
 	log.info("Démarrage du serveur minecraft");
+	running = true;
 	process = cp.spawn("java",["-Xmx"+ram+"M","-Xms"+ram+"M","-jar",executable,"nogui"],{cwd:getAbsolutePath()});
 	process.stdout.setEncoding("UTF-8");
 
@@ -76,14 +78,22 @@ function run()
 	});
 
 	process.on("close",function(){
+		running = false;
 		log.info("Serveur Minecraft étein");
 	});
 }
 
 
 function sendCommand(command){
-	process.stdin.write(command+"\n");
-	log.info("Commande "+command+" envoyée au serveur");
+	if(running)
+	{
+		process.stdin.write(command+"\n");
+		log.info("Commande "+command+" envoyée au serveur");
+	}
+	else
+	{
+		log.error("La commande "+command+" ne peut etre envoyée car le serveur n'est pas démarré");
+	}
 };
 
 exports.getPath = getAbsolutePath;
@@ -93,3 +103,7 @@ exports.run = run;
 exports.getVersion = function(){
 	return version;
 };
+
+exports.isRunning = function(){
+	return running;
+}
