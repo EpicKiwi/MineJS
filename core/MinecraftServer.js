@@ -115,6 +115,7 @@ function analyzeLine(line)
 	switch(line[0])
 	{
 		case "INFO":
+			log.log("Minecraft : "+line[1]);
 			emitter.emit("info",line[1]);
 		break;
 		case "WARN":
@@ -168,11 +169,70 @@ function isOutdated(){
 	}
 }
 
+function setEula(state){
+	fs.writeFileSync(getAbsolutePath()+"/eula.txt","eula="+state);
+}
+
+function generateConfig(callback){
+	run();
+	emitter.once("ready",function(){
+		stop();
+		emitter.once("close",function(){
+			callback();
+		})
+	});
+}
+
+function stop(){
+	sendCommand("stop");
+}
+
+function reboot(){
+	sendCommand("stop");
+	emitter.once("close",function(){
+		run();
+	});
+}
+
 function install(){
 	SetupManager.checkFolder(getAbsolutePath());
+	if(MineJS.getConfig().gameServerAcceptEula)
+	{
+		log.info("Minecraft : EULA Automatiquement acceptée");
+		setEula(true);
+	}
 	VersionsManager.downloadLatest(getAbsolutePath(),function(){
-		log.info("Minecraft : Serveur téléchargé");
+		if(MineJS.getConfig().gameServerAcceptEula)
+		{
+			searchExecutable();
+			log.info("Minecraft : Génération de la configuration");
+			generateConfig(function(){
+				log.info("Minecraft : serveur opérationnel");
+			});
+		}
 	});
+}
+
+function update(){
+	if(isOutdated())
+	{
+		VersionsManager.downloadLatest(getAbsolutePath(),function(){
+			try
+			{
+				fs.unlinkSync(getAbsolutePath()+"/"+executable);
+			}
+			catch(e)
+			{
+				console.trace(e);
+			}
+			searchExecutable();
+			log.info("Minecraft : Serveur mis a jour");
+		});
+	}
+	else
+	{
+		log.info("Minecraft : Le serveur est déjà à jour");
+	}
 }
 
 exports.getPath = getAbsolutePath;
@@ -181,6 +241,7 @@ exports.run = run;
 exports.sendCommand = sendCommand;
 exports.isOutdated = isOutdated;
 exports.install = install;
+exports.update = update;
 
 exports.getVersion = function(){
 	return version;
