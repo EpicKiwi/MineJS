@@ -34,7 +34,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(UsersManager.getUsers()));
+		response.send(MinecraftServer.isOutdated());
 	});
 
 	//Initialisation des sockets

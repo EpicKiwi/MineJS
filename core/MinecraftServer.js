@@ -4,6 +4,7 @@ var events = require('events');
 
 var MineJS = require("./MineJS");
 var log = require("./Logger");
+var VersionsManager = require('./MinecraftVersionManager');
 
 var folder = "";
 var executable = null;
@@ -22,13 +23,15 @@ function getAbsolutePath()
 
 function init()
 {
-	folder = MineJS.getConfig().gameServerFolder;
-	searchExecutable();
-	eventDispatcher();
-	if(MineJS.getConfig().gameServerAutoStart)
-	{
-		run();
-	}
+	VersionsManager.loadAvaliableVersions(function(){
+		folder = MineJS.getConfig().gameServerFolder;
+		searchExecutable();
+		eventDispatcher();
+		if(MineJS.getConfig().gameServerAutoStart)
+		{
+			run();
+		}
+	});
 }
 
 function searchExecutable()
@@ -153,10 +156,22 @@ function eventDispatcher(){
 	});
 }
 
+function isOutdated(){
+	if(VersionsManager.getLatest().release == version)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 exports.getPath = getAbsolutePath;
 exports.init = init;
 exports.run = run;
 exports.sendCommand = sendCommand;
+exports.isOutdated = isOutdated;
 
 exports.getVersion = function(){
 	return version;
