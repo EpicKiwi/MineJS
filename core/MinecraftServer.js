@@ -7,6 +7,8 @@ var log = require("./Logger");
 var folder = "";
 var executable = null;
 var version = null;
+var ram = 2048;
+var process = null;
 
 function getAbsolutePath()
 {
@@ -17,7 +19,10 @@ function init()
 {
 	folder = MineJS.getConfig().gameServerFolder;
 	searchExecutable();
-	log.log("serveur minecraft : version = "+version+" / executable = "+executable);
+	if(MineJS.getConfig().gameServerAutoStart)
+	{
+		run();
+	}
 }
 
 function searchExecutable()
@@ -53,8 +58,37 @@ function searchExecutable()
 
 }
 
+function run()
+{
+	log.info("Démarrage du serveur minecraft");
+	process = cp.spawn("java",["-Xmx"+ram+"M","-Xms"+ram+"M","-jar",executable,"nogui"],{cwd:getAbsolutePath()});
+	process.stdout.setEncoding("UTF-8");
+
+	var line = "";
+	process.stdout.on("data",function(data){
+		line += data;
+		if(data.search(/\r\n/i) != -1)
+		{
+			line = line.replace(/(.*)\r\n/i,"$1");
+			log.log("Minecraft : "+line);
+			line = "";
+		}
+	});
+
+	process.on("close",function(){
+		log.info("Serveur Minecraft étein");
+	});
+}
+
+
+function sendCommand(command){
+	process.stdin.write(command+"\n");
+	log.info("Commande "+command+" envoyée au serveur");
+};
+
 exports.getPath = getAbsolutePath;
 exports.init = init;
+exports.run = run;
 
 exports.getVersion = function(){
 	return version;
