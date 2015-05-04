@@ -2,30 +2,54 @@ var express = require('express');
 var expressApp = express();
 var http = require('http').Server(expressApp);
 var io = require('socket.io')(http);
+var fs = require("fs");
+var yaml = require("js-yaml");
 
 var log = require("./Logger");
 var setupManager = require("./SetupManager.js");
+
+var config = {};
 
 function init(){
 	log.info("Verification de l'installation");
 	setupManager.check();
 
+	log.info("chargement de la configuration")
+	loadConfig();
+
 	log.info("Démarrage du serveur web");
+	//Dossier des fichiers stiques (JS/CSS/IMG)
 	expressApp.use("/static",express.static(__dirname+"/static"));
 
+	//URL principal
 	expressApp.get("/",function(request,response){
 		response.send("Hello world");
 	});
 
+	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(setupManager.checklist));
+		response.send(JSON.stringify(config));
 	});
 
-	http.listen(80,function(){
-		log.info("Ecoute sur *:80");
+	//Démarrage du serveur
+	http.listen(config.port,function(){
+		log.info("Ecoute sur *:"+config.port);
 	});
 };
 
+function loadConfig(){
+	try
+	{
+		config = yaml.safeLoad(fs.readFileSync(__dirname+"/../config/config.yml",{encoding:"utf8"}));
+	}
+	catch(e)
+	{
+		log.warn("Aucune configuration trouvée chargement de la configuration par défaut");
+		config = yaml.safeLoad(fs.readFileSync(__dirname+"/defaults/config.yml",{encoding:"utf8"}));
+	}
+}
+
+exports.config = config;
 exports.init = init;
 exports.io = io;
 exports.express = expressApp;
