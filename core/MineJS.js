@@ -6,7 +6,8 @@ var fs = require("fs");
 var yaml = require("js-yaml");
 
 var log = require("./Logger");
-var setupManager = require("./SetupManager.js");
+var setupManager = require("./SetupManager");
+var MinecraftServer = require("./MinecraftServer");
 
 var config = {};
 
@@ -14,8 +15,11 @@ function init(){
 	log.info("Verification de l'installation");
 	setupManager.check();
 
-	log.info("chargement de la configuration")
+	log.info("Chargement de la configuration")
 	loadConfig();
+
+	log.info("Initialisation du serveur Minecraft");
+	MinecraftServer.init();
 
 	log.info("Démarrage du serveur web");
 	//Dossier des fichiers stiques (JS/CSS/IMG)
@@ -49,7 +53,16 @@ function loadConfig(){
 	}
 }
 
-exports.config = config;
 exports.init = init;
-exports.io = io;
-exports.express = expressApp;
+
+exports.getIo = function(){
+	return io;
+};
+
+exports.getExpress = function(){
+	return expressApp;
+};;
+
+exports.getConfig = function(){
+	return config;
+};
