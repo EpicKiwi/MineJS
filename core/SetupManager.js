@@ -12,6 +12,7 @@ function checkSetup()
 	createFileSystem();
 	installChecklist.config = checkFile(__dirname+"/../config/config.yml");
 	installChecklist.users = checkUsers();
+	installChecklist.gameServer = checkGameServer();
 };
 
 function checkUsers()
@@ -33,6 +34,34 @@ function checkUsers()
 		if(e.code == "ENOENT")
 		{
 			log.warn("Le dossier utilisateurs n'existe pas");
+			return false;
+		}
+		else
+		{
+			console.trace(e);
+		}
+	}
+}
+
+function checkGameServer()
+{
+	try
+	{
+		var users = fs.readdirSync(__dirname+"/../gamefiles");
+		if(users.length > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	catch(e)
+	{
+		if(e.code == "ENOENT")
+		{
+			log.warn("Le dossier gamefiles n'existe pas");
 			return false;
 		}
 		else
