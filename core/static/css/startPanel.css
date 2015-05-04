@@ -1,0 +1,208 @@
+@keyframes fadeOutHide {
+    from {
+    	opacity: 1;
+    	display: auto;
+    }
+    to {
+    	opacity: 0;
+    	display: none;
+    }
+}
+
+@-webkit-keyframes fadeOutHide {
+    from {
+    	opacity: 1;
+    	display: auto;
+    }
+    to {
+    	opacity: 0;
+    	display: none;
+    }
+}
+
+a
+{
+	text-decoration: none;
+	color: #3984FF;
+}
+
+#start-panel
+{
+}
+
+#login-form
+{
+	width: 100%;
+	position: absolute;
+	top: 40%;
+	left: 0;
+	vertical-align: middle;
+	transform: translateY(-50%);
+	transition-delay: 0.5s;
+}
+
+#login-form h1
+{
+	font-size: 10vh;
+	text-align: center;
+	font-family: "open sans", arial, sans-serif;
+	font-weight: 300;
+	color: white;
+	text-shadow: black 0 0 5px;
+	position: relative;
+}
+
+#login-form .logBox
+{
+	position:relative;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 1vh;
+	padding: 1vw 1vh;
+	width: 350px;
+
+	overflow: hidden;
+
+	background-color: white;
+	box-shadow: black 0 0 5px;
+
+	transition-duration: 0.5s;
+	transition-property: all;
+}
+
+#login-form .infoBox
+{
+	width: 90%;
+	text-align: center;
+	padding: 5% 10px;
+	font-size: 15px;
+	color: #606060;
+}
+
+#login-form .logBox.error
+{
+	background-color: #FC9999;
+}
+
+#login-form .logBox input[type="text"],#login-form .logBox input[type="password"]
+{
+	position: relative;
+	width: 98%;
+	font-size: 15px;
+	line-height: 30px;
+	padding: 1%;
+	border: solid 1px #CFCFCF;
+	z-index: 1;
+	transform: scale(1);
+
+	transition-duration: 0.5s;
+	trtansition-property: all;
+}
+
+#login-form .logBox input[type="text"]:focus,#login-form .logBox input[type="password"]:focus,#login-form .logBox input[type="submit"]:focus
+{
+	transform: scale(1.01);
+	outline: none;
+	border-color: #0072FF;
+	z-index: 2;
+	box-shadow: 0 0 5px #0050B2;
+}
+
+#login-form .logBox input[type="submit"]
+{
+	position: relative;
+	z-index: 1;
+	background-color: white;
+	width: 100.5%;
+	font-size: 15px;
+	line-height: 30px;
+	border: solid 1px #CFCFCF;
+	font-weight: bold;
+	color: #0072FF;
+	transform: scale(1);
+
+	transition-duration: 0.5s;
+	trtansition-property: all;
+}
+
+#login-form .logBox input:first-child
+{
+	border-radius: 10px 10px 0 0;
+}
+
+#login-form .logBox input:last-child
+{
+	border-radius: 0 0 10px 10px;
+}
+
+#iconContainer
+{
+	width: 80%;
+	height: 90%;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+}
+
+#iconContainer .appIcon
+{
+	width: 110px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+#iconContainer .appIcon .appImage
+{
+	position: relative;
+	width: 100px;
+	height: 100px;
+	margin: 5px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+#iconContainer .appIcon .appName
+{
+	width: 100%;
+	color: white;
+	text-align: center;
+	transition: 0.5s all;
+}
+
+#iconContainer .appIcon:hover .appName
+{
+	margin-top: -7px;
+	margin-bottom: 7px;
+}
+
+#iconContainer .appIcon .appImage img
+{
+	position: relative;
+}
+
+#iconContainer .appIcon .appImage::before
+{
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	transition: 0.5s opacity;
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(0,0,0,0.5) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(0,0,0,0.5)));
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(0,0,0,0.5) 100%);
+	background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(0,0,0,0.5) 100%);
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(0,0,0,0.5) 100%);
+	background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(0,0,0,0.5) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#80000000',GradientType=0 );
+	border-radius: 10px;
+}
+
+#iconContainer .appIcon:hover .appImage::before
+{
+	opacity: 0;
+}

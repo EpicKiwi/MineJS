@@ -1,0 +1,210 @@
+*
+{
+	margin: 0;
+	padding: 0;
+	font-family: "open sans", arial, sans-serif;
+}
+
+#display
+{
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
+}
+
+#display::before
+{
+	content: "";
+
+	width: 110%;
+	height: 110%;
+	position: absolute;
+	top: -5%;
+	left: -5%;
+	z-index: 0;
+
+	background-image: url("../img/background.png");
+	background-size: 100% auto;
+}
+
+#display.blur::before
+{
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);
+	-o-filter: blur(10px);
+	-ms-filter: blur(10px);
+	filter: blur(10px);
+}
+
+@media screen and (max-width: 1200px)
+{
+	#display::before
+	{
+		background-size: auto 100%;
+	}
+}
+
+.panel
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 1;
+}
+
+.panel.active, #start-panel
+{
+	top: 0;
+	right: 0;
+}
+
+.panel:not(.active)
+{
+	top: 100%;
+}
+
+.panel.reduce
+{
+	top: 100px;
+}
+
+.panel.active
+{
+	z-index: 10;
+}
+
+#control-bar
+{
+	z-index: 20;
+	width: 99%;
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.5);
+	color: white;
+	padding: 0 1% 0 1%;
+	line-height: 31px;
+	transition-property: all;
+	transition-duration: 0.5s;
+}
+
+#bar-container.notDisplay
+{
+	opacity: 0;
+}
+
+#control-bar.hide
+{
+	bottom: -40px;
+}
+
+#control-bar span
+{
+	display: inline-block;
+	margin: 0 5px 0 5px;
+	padding: 0 5px 5px 5px;
+	cursor: pointer;
+	transition-property: all;
+	transition-duration: 0.3s;
+	font-size: 15px;
+}
+
+#control-bar span i
+{
+	position: relative;
+	top: 3px;
+	margin-right: 5px;
+	margin-left: 5px;
+	font-size: 25px;
+}
+
+#control-bar span:hover, #bar-container .menu span:hover
+{
+	background-color: rgba(255,255,255,0.8);
+	color: #0072FF;
+	text-shadow: 0 0 5px #0072FF;
+}
+
+#control-bar #hideBar
+{
+	float: right;
+}
+
+#bar-container .menu span
+{
+	transition-property: all;
+	transition-duration: 0.3s;
+	display: block;
+	font-size: 15px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+#bar-container .menu span i
+{
+	font-size: 25px;
+}
+
+#bar-container .menu
+{
+	z-index: 20;
+	position: absolute;
+	bottom: 40px;
+	background-color: rgba(0,0,0,0.5);
+	color: white;
+	max-height: 1000px;
+	overflow: hidden;
+	transition-property: all;
+	transition-duration: 0.3s;
+}
+
+#bar-container .menu.hide
+{
+	max-height: 0px;
+}
+
+#bar-container .menu#menuServer
+{
+	left: 70px;
+}
+
+#bar-container .menu#menuPlayers
+{
+	left: 200px;
+}
+
+
+#bar-container .menu#menuCommand
+{
+	left: 552px;
+}
+
+#bar-container .menu#menuCommand input
+{
+	padding: 5px;
+	background-color: transparent;
+	border: solid 2px white;
+	outline: none;
+	color: white;
+}
+
+#bar-container .menu#menuCommand form
+{
+	padding: 10px;
+}
+
+#bar-container .menu#menuCommand input[type="submit"]
+{
+	padding: 5px 10px;
+	border-left: none;
+	border-radius: 0 5px 5px 0;
+	font-weight: bold;
+}
+
+#bar-container .menu#menuCommand input[type="text"]
+{
+	border-radius: 5px 0 0 5px;
+	width: 300px;
+}

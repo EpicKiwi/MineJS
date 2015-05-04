@@ -1,0 +1,36 @@
+  @keyframes goRightArrow {
+    from {
+      opacity: 0;
+      left: 90%;
+    }
+    
+    to {
+      opacity: 1
+      left: 100%;
+    }
+  }
+
+   @-webkit-keyframes goRightArrow {
+    from {
+      opacity: 0;
+      left: 90%;
+    }
+    
+    to {
+      opacity: 1
+      left: 100%;
+    }
+  }
+
+#app
+{
+	background-color: #F5F5F5;
+	transition-duration: 0.5s;
+	transition-property: all;
+	padding-bottom: 40px;
+}
+
+#app.active,#app.reduce
+{
+	box-shadow: black 0 0 15px;
+}

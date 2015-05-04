@@ -1,16 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="MineJS">
 	<head>
-		<meta charset="UTF-8"/>
 		<title>MineJS</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="/static/css/global.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/css/startPanel.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/css/apps.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/icons/foundation-icons.css"/>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
-		<p>Hello world</p>
 
-		<!-- Script Zone -->
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-		var socket = new io();
-		</script>
+		<div id="display">
+
+		<div id="start-panel" class="panel">
+
+			<div id="login-form">
+				<h1>MineJS</h1>
+				<div class="logBox">
+					<form>
+						<input type="text" placeholder="Nom d'utilisateur"/>
+						<input type="password" placeholder="Mot de passe"/>
+						<input type="submit" vlaue="Se conecter"/>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="app" class="panel">
+			
+		</div>
+
+		<div id="bar-container">
+				<nav id="control-bar">
+					<span><i class="fi-flag"></i></span><span><i class="fi-check"></i>En ligne</span><span><i class="fi-torso"></i>Joueurs: 0</span><span><i class="fi-puzzle"></i>0 Plugins</span><span><i class="fi-graph-bar"></i>Charge: 0</span><span><i class="fi-italic"></i></span>
+					<span id="hideBar"><i class="fi-arrows-compress"></i></span>
+				</nav>
+			</div>
+		</div>
+
+	<script src="/static/js/jquery.js"></script>
+	<script src="/static/js/angular.js"></script>
+	<script src="/static/js/tweenMax.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/static/js/angular-socket-io/socket.js"></script>
+	<script src="/static/js/app.js"></script>
 	</body>
 </html>
