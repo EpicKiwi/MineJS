@@ -65,7 +65,15 @@ function check(username,password)
 	try
 	{
 		fs.accessSync(__dirname+"/../config/users/"+username+".yml");
-		return true;
+		var user = getInfos(username);
+		if(password == user.password)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	catch(e)
 	{
