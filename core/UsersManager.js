@@ -1,8 +1,8 @@
 var fs = require('fs');
 var yaml = require('js-yaml');
+var crypto = require('crypto');
 
 var log = require("./Logger");
-
 
 function getUsers(){
 	var users = {};
@@ -75,6 +75,14 @@ function check(username,password)
 		}
 		return false;
 	}
+}
+
+function hashString(str)
+{
+	var shahash = crypto.createHash('sha1');
+	shahash.update(string);
+	var result = shahash.digest('hex');
+	return result;
 }
 
 exports.init = init;

@@ -18,7 +18,7 @@ function init(){
 
 	log.info("Chargement de la configuration")
 	loadConfig();
-	
+
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();
 
@@ -36,6 +36,11 @@ function init(){
 		response.send(JSON.stringify(UsersManager.getUsers()));
 	});
 
+	//Initialisation des sockets
+	io.on("connection",function(socket){
+		log.info("Connection socket");
+		var User = new User(socket);
+	});
 	//Démarrage du serveur
 	http.listen(config.port,function(){
 		log.info("Ecoute sur *:"+config.port);
