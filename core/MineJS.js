@@ -8,6 +8,7 @@ var yaml = require("js-yaml");
 var log = require("./Logger");
 var setupManager = require("./SetupManager");
 var MinecraftServer = require("./MinecraftServer");
+var UsersManager = require("./UsersManager");
 
 var config = {};
 
@@ -17,7 +18,7 @@ function init(){
 
 	log.info("Chargement de la configuration")
 	loadConfig();
-
+	
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();
 
@@ -32,7 +33,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(MinecraftServer.getOnlinePlayers()));
+		response.send(JSON.stringify(UsersManager.getUsers()));
 	});
 
 	//Démarrage du serveur
