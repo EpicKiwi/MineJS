@@ -1,3 +1,5 @@
+var color = require("colors");
+
 function getFormatedDate(){
 	var date = new Date();
 	var returnedString = "";
@@ -26,7 +28,8 @@ exports.custom =  function (status,message)
 
 exports.log =  function (message)
 {
-	console.log(getFormatedDate()+" DEBG | "+message);
+	var str = getFormatedDate()+" DEBG | "+message;
+	console.log(str.blue);
 }
 
 exports.info =  function (message)
@@ -36,10 +39,12 @@ exports.info =  function (message)
 
 exports.warn =  function (message)
 {
-	console.warn(getFormatedDate()+" WARN | "+message);
+	var str = getFormatedDate()+" WARN | "+message;
+	console.warn(str.yellow);
 }
 
 exports.error =  function (message)
 {
-	console.error(getFormatedDate()+" ERR! | "+message);
+	var str = getFormatedDate()+" ERR! | "+message;
+	console.error(str.red);
 }
