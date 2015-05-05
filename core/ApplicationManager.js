@@ -84,9 +84,17 @@ function openApp(user,id)
 	{
 		if(user.activeApp == null)
 		{
-			appsAvaliable[id].onUserOpen(user);
-			user.socket.emit("openApp",appsAvaliable[id].getInfos());
-			user.activeApp = appsAvaliable[id];
+			if(user.trusted || !appsAvaliable[id].needLogin)
+			{
+				appsAvaliable[id].onUserOpen(user);
+				user.socket.emit("openApp",appsAvaliable[id].getInfos());
+				user.activeApp = appsAvaliable[id];
+			}
+			else
+			{
+				log.warn("L'application "+id+" requiere une authentification");
+				user.socket.emit("notif",{type:"error",message:"Vous devez tout d'abort vous connecter"});
+			}
 		}
 		else
 		{

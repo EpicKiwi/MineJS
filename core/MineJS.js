@@ -38,7 +38,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(SetupManager.getChecklist()));
+		response.send(JSON.stringify(ApplicationManager.getAppsAvaliable()));
 	});
 
 	//Initialisation des sockets

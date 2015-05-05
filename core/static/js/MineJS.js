@@ -32,6 +32,21 @@ app.controller("globalController",function($scope,socket,userFactory){
 	$scope.closeApp = function(){
 		socket.emit("closeApp");
 	}
+
+	$scope.getIconPath = function(file,appId){
+		if(file == "default")
+		{
+			return "/static/img/burst.svg";
+		}
+		else
+		{
+			return "/app/"+appId+"/"+file;
+		}
+	}
+
+	socket.on("avaliableApps",function(apps){
+		$scope.avaliableApps = apps;
+	});
 });
 
 //Controlleur de la boite de connexion

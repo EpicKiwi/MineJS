@@ -5,15 +5,20 @@ function setApplication(pObj, pParams){
         return false;
     }
     
+    if(pParams.needLogin == undefined)
+    {
+        pParams.needLogin = true;
+    }
+
     pObj.id = pParams.id;
     pObj.name = pParams.name;               
     pObj.description = pParams.description;
     pObj.init = pParams.init;
     pObj.onUserOpen = pParams.onUserOpen;
     pObj.onUserClose  = pParams.onUserClose;
-    pObj.needLogin = pParams.needLogin || true;
     pObj.script     = pParams.script;
     pObj.custom     = pParams.custom;
+    pObj.needLogin = pParams.needLogin;
     
     return true;
 }
@@ -25,10 +30,17 @@ function ApplicationGui(pParams){
     if (!setApplication(this, pParams)){
         return false;
     }
-    this.iconPath   = pParams.iconPath || "/static/img/defaultIcon.svg"; 
+
+    if(pParams.showIcon == undefined)
+    {
+        pParams.showIcon = true;
+    }
+
+    this.icon       = pParams.icon || "default"; 
     this.css        = pParams.css;
     this.html       = pParams.html;
     this.style      = pParams.style || {primaryColor: "#005AFF"};
+    this.showIcon   = pParams.showIcon
     this.getInfos = function(){
         return {
            id           : this.id,

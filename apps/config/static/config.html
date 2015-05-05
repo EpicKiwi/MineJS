@@ -1,0 +1,188 @@
+<div class="app-container" ng-controller="configAppController">
+<nav class="side-tab-menu">
+
+	<div id="tab-1-title" class="tab-title" ng-click="tab = 1" ng-class="{active: tab == 1}">
+		Parametres de base
+	</div>
+
+	<div id="tab-2-title" class="tab-title" ng-click="tab = 2" ng-class="{active: tab == 2}">
+		Monde
+	</div>
+
+	<div id="tab-3-title" class="tab-title" ng-click="tab = 3" ng-class="{active: tab == 3}">
+		Joueurs
+	</div>
+
+	<div id="tab-4-title" class="tab-title" ng-click="tab = 4" ng-class="{active: tab == 4}">
+		Mobs
+	</div>
+
+	<div id="tab-5-title" class="tab-title" ng-click="tab = 5" ng-class="{active: tab == 5}">
+		Réseau
+	</div>
+	<div class="separator"></div>
+	<div id="tab-5-title" class="tab-title" ng-click="save()">
+		Enregistrer <i class="fi-check" ng-show="saved" ></i>
+	</div>
+
+	<div id="tab-5-title" class="tab-title" ng-click="closeApp()">
+		Quitter
+	</div>
+
+</nav>
+<section class="tab-content">
+
+	<div id="tab-1" ng-show="tab == 1" class="tab">
+		<div class="content">
+			<h2>Parametres de base</h2>
+			<form>
+				<table class="formTable col-2">
+					<tr><td><label for="motd" >Message d'accueil</label></td><td><input type="text" name="motd" ng-model="config['motd']"/></td></tr>
+				<tr><td><label for="ressourcePack" >Lien du ressource pack</label></td><td><input placeholder="Aucun" type="text" name="ressourcePack" ng-model="config['resource-pack']"/></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<div id="tab-2" ng-show="tab == 2" class="tab">
+		<div class="content">
+			<h2>Parametres des mondes</h2>
+			<form>
+				<table class="formTable col-2">
+				<tr><td><label for="levelName" >Nom du monde</label></td><td><input type="text" name="levelName" ng-model="config['level-name']"/></td></tr>
+				<tr><td><label for="levelSeed" >Seed du monde</label></td><td><input placeholder="Aléatoire" type="text" name="levelSeed" ng-model="config['level-seed']"/></td>
+				<tr><td><label for="maxHeight" >Hauteur maximale de construction</label></td><td><input type="number" name="maxHeight" ng-model="config['max-build-height']"/></td></tr>
+				<tr><td><label for="levelType" >Type de monde</label></td><td><select name="levelType" ng-model="config['level-type']">
+																					<option value="DEFAULT">Standard</option>
+																					<option value="FLAT">Plat</option>
+																					<option value="LARGEBIOMES">Grand biomes</option>
+																					<option value="AMPLIFIED">Amplifié</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnProtection" >Protection du spawn</label></td><td><select name="spawnProtection" ng-model="config['spawn-protection']">
+																					<option value="0">Aucune</option>
+																					<option value="1">3x3</option>
+																					<option value="2">5x5</option>
+																					<option value="16">19x19</option>
+																				</select></td></tr>
+				<tr><td><label for="allowNether" >Activer le nether</label></td><td><select name="allowNether" ng-model="config['allow-nether']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="generateStructure" >Génèrer les villages</label></td><td><select name="generateStructures" ng-model="config['generate-structures']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="commandBlocks" >Command blocks</label></td><td><select name="commandBlocks" ng-model="config['enable-command-block']">
+																					<option value="true">Activés</option>
+																					<option value="false">Désactivés</option>
+																				</select></td></tr>
+				<tr><td><label for="viewDistance" >Distance maximum de chargement</label></td><td><input type="number" name="viewDistance" ng-model="config['view-distance']"/>
+				<tr><td><label for="worldSize" >Taille du monde (1 - 29999984)</label></td><td><input type="number" name="worldSize" ng-model="config['max-world-size']"/></td></tr>
+				<tr ng-if="config['level-type'] == 'FLAT'"><td><label for="generateSettings" >Parametre de génération</label></td><td><input type="text" name="generateSettings" ng-model="config['generator-settings']"/></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<div id="tab-3" ng-show="tab == 3" class="tab">
+		<div class="content">
+			<h2>Parametres des joueurs</h2>
+			<form>
+				<table class="formTable col-2">
+				<tr><td><label for="maxPlayer" >Joueurs maximum</label></td><td><input type="number" name="maxPlayer" ng-model="config['max-players']"/></td></tr>
+				<tr><td><label for="gameMode" >Mode de jeu</label></td><td><select name="gameMode" ng-model="config['gamemode']">
+																					<option value="0">Survie</option>
+																					<option value="1">Créatif</option>
+																					<option value="3">Avanture</option>
+																					<option value="4">Spectateur</option>
+																				</select></td></tr>
+				<tr><td><label for="forceGamemode" >Forcer le mode de jeu</label></td><td><select name="forceGamemode" ng-model="config['force-gamemode']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="difficulty" >Difficulté</label></td><td><select name="difficulty" ng-model="config['difficulty']">
+																					<option value="0">Paix totale</option>
+																					<option value="1">Facile</option>
+																					<option value="3">Normal</option>
+																					<option value="4">Difficile</option>
+																				</select></td></tr>
+				<tr><td><label for="hardcore" >Mode hardcore</label></td><td><select name="hardcore" ng-model="config['hardcore']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="enableRcon" >Liste blanche</label></td><td><select name="enableRcon" ng-model="config['white-list']">
+																					<option value="true">Activée</option>
+																					<option value="false">Désactivée</option>
+																				</select></td></tr>
+				<tr><td><label for="pvp" >Player Vs Player</label></td><td><select name="pvp" ng-model="config['pvp']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="allowFlight" >Autoriser le vol</label></td><td><select name="allowFlight" ng-model="config['allow-flight']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="announceAchievement" >Annoncer les succes</label></td><td><select name="announceAchievement" ng-model="config['announce-player-achievements']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="opPermissions" >Permissions des admins</label></td><td><select name="opPermissions" ng-model="config['op-permission-level']">
+																					<option value="1">Pas de protection au spawn</option>
+																					<option value="2">Command blocks et /clear, /difficulty, /effect, /gamemode, /gamerule, /give, /tp</option>
+																					<option value="3">/ban /deop /kick /op</option>
+																					<option value="4">/stop</option>
+																				</select></td></tr>
+				<tr><td><label for="onlineMode" >Verifier les joueurs (Online mode)</label></td><td><select name="onlineMode" ng-model="config['online-mode']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<div id="tab-4" ng-show="tab == 4" class="tab">
+		<div class="content">
+			<h2>Parametres des mobs</h2>
+			<form>
+				<table class="formTable col-2">
+				<tr><td><label for="spawnMonster" >Spawn de monstre</label></td><td><select name="spawnMonster" ng-model="config['spawn-monsters']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnAnimals" >Spawn d'animaux</label></td><td><select name="spawnAnimals" ng-model="config['spawn-animals']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnNpc" >Spawn de villageois</label></td><td><select name="spawnNpc" ng-model="config['spawn-npcs']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+	<div id="tab-5" ng-show="tab == 5" class="tab">
+		<div class="content">
+			<h2>Parametres du réseau</h2>
+			<form>
+				<table class="formTable col-2">
+				<tr><td><label for="serverIp" >Ip du serveur</label></td><td><input placeholder="Votre Ip par défaut" type="text" name="serverIp" ng-model="config['server-ip']"/></td></tr>
+				<tr><td><label for="port" >Port du serveur Minecraft</label></td><td><input type="number" name="port" ng-model="config['server-port']"/></td></tr>
+				<tr><td><label for="enableQuery" >Protocole GameSpy4 (query)</label></td><td><select name="enableQuery" ng-model="config['enable-query']">
+																					<option value="true">Activé</option>
+																					<option value="false">Désactivé</option>
+																				</select></td></tr>
+				<tr><td><label for="enableRcon" >Acces à distance (rcon)</label></td><td><select name="enableRcon" ng-model="config['enable-rcon']">
+																					<option value="true">Activé</option>
+																					<option value="false">Désativé</option>
+																				</select></td></tr>
+				<tr><td><label for="playerTimeout" >Temps d'un tick</label></td><td><input type="number" name="playerTimeout" ng-model="config['max-tick-time']"/></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+</section>
+</div>
