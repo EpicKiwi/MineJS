@@ -7,16 +7,17 @@ var log = require("./Logger");
 var VersionsManager = require('./MinecraftVersionManager');
 var SetupManager = require("./SetupManager");
 
-var folder = "";
-var executable = null;
-var version = null;
-var ram = 2048;
-var process = null;
-var running = false;
-var emitter = new events.EventEmitter();
-var lastCommand = null;
-var onlinePlayers = [];
-var config = {};
+var folder = "";							//Dossier contenant le serveur
+var executable = null;						//Executable du serveur
+var version = null;							//Version du serveur
+var ram = 2048;								//Ram alouée au serveur
+var process = null;							//Objet child-process associé au serveur
+var running = false;						//Le serveur est il allymé
+var state = 0;								//Etat du serveur : 0 etein, 1 chargement, 2 pret
+var emitter = new events.EventEmitter();	//Emetteur d'evenement du serveur
+var lastCommand = null;						//Derniere commande envoyée au serveur
+var onlinePlayers = [];						//Joueurs en ligne
+var config = {};							//Configuration global du serveur(server.properties)
 
 function getAbsolutePath()
 {
@@ -73,6 +74,7 @@ function searchExecutable()
 function run()
 {
 	log.info("Minecraft : Démarrage du serveur");
+	state = 1;
 	emitter.emit("load");
 	running = true;
 	process = cp.spawn("java",["-Xmx"+ram+"M","-Xms"+ram+"M","-jar",executable,"nogui"],{cwd:getAbsolutePath()});
@@ -91,6 +93,7 @@ function run()
 
 	process.on("close",function(){
 		running = false;
+		state = 0;
 		emitter.emit("close");
 		log.info("Minecraft : Serveur etein");
 	});
@@ -135,6 +138,7 @@ function eventDispatcher(){
 	emitter.on("info",function(message){
 		if(message.search(/Done \(.*\)/i) != -1)
 		{
+			state = 2;
 			log.info("Minecraft : Serveur pret");
 			emitter.emit("ready");
 		}
@@ -194,6 +198,17 @@ function reboot(){
 	emitter.once("close",function(){
 		run();
 	});
+}
+
+function toggle(){
+	if(running)
+	{
+		stop();
+	}
+	else
+	{
+		run();
+	}
 }
 
 function install(callback){
@@ -301,6 +316,9 @@ function saveConfig(){
 exports.getPath = getAbsolutePath;
 exports.init = init;
 exports.run = run;
+exports.stop = stop;
+exports.toggle = toggle;
+exports.reboot = reboot;
 exports.sendCommand = sendCommand;
 exports.isOutdated = isOutdated;
 exports.install = install;
@@ -334,4 +352,8 @@ exports.getConfig = function(){
 
 exports.setConfig = function(value){
 	config = value;
+}
+
+exports.getState = function(){
+	return state;
 }

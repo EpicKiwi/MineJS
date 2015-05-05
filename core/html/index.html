@@ -24,7 +24,6 @@
 						<input type="password" placeholder="Mot de passe" ng-model="password" />
 						<input type="submit" vlaue="Se conecter"/>
 					</form>
-					<p class="infoBox">Essayez d'<a ng-click="openApp('setup')" href="#">installer</a> MineJS</p>
 				</div>
 			</div>
 		</div>
@@ -42,9 +41,26 @@
 
 		</div>
 
-		<div id="bar-container">
+		<div id="bar-container" ng-controller="controlBarController">
+
+			<div class="menu hide" id="menuServer" ng-class="{hide:activeMenu != 'server'}">
+				<span ng-click="toggleGameServer()" ><i class="fi-power"></i></span>
+				<span ng-click="rebootGameServer()" ><i class="fi-refresh"></i></span>
+			</div>
+
+			<div class="menu hide" ng-class="{hide:activeMenu != 'players'}" id="menuPlayers">
+				<span ng-repeat="player in onlinePlayers.players" >{{player}}</span>
+				<span ng-show="onlinePlayers.players.length == 0" >Personne</span>
+			</div>
+
+			<div class="menu hide" ng-class="{hide:activeMenu != 'command'}" id="menuCommand">
+				<form ng-submit="sendCommand(command)">
+					<input type="text" ng-model="command"/><input type="submit" value=">"/>
+				</form>
+			</div>
+
 				<nav id="control-bar" class="hide" ng-class="{hide:!isLogged()}">
-					<span><i class="fi-flag"></i></span><span><i class="fi-check"></i>En ligne</span><span><i class="fi-torso"></i>Joueurs: 0</span><span><i class="fi-puzzle"></i>0 Plugins</span><span><i class="fi-graph-bar"></i>Charge: 0</span><span><i class="fi-italic"></i></span>
+					<span><i class="fi-flag"></i></span><span ng-click="toggleMenu('server')"><i class="fi-{{serverStates[actualState].icon}}"></i>{{serverStates[actualState].text}}</span><span ng-click="toggleMenu('players')"><i class="fi-torso"></i>Joueurs: {{onlinePlayers.players.length}}/{{onlinePlayers.playersMax}}</span><span ng-click="toggleMenu('command')"><i class="fi-italic"></i></span>
 				</nav>
 			</div>
 		</div>

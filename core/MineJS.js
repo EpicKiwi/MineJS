@@ -10,6 +10,7 @@ var SetupManager = require("./SetupManager");
 var MinecraftServer = require("./MinecraftServer");
 var UsersManager = require("./UsersManager");
 var ApplicationManager = require("./ApplicationManager");
+var BroadcastManager = require("./BroadcastManager");
 var User = require("./User");
 
 var config = {};
@@ -21,6 +22,7 @@ function init(){
 	log.info("Chargement de la configuration")
 	loadConfig();
 	ApplicationManager.init();
+	BroadcastManager.init();
 
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();

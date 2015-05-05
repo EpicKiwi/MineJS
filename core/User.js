@@ -3,6 +3,8 @@ var yaml = require('js-yaml');
 
 var UserManager = require("./UsersManager");
 var ApplicationManager = require("./ApplicationManager");
+var MinecraftServer = require("./MinecraftServer");
+var SetupManager = require("./SetupManager");
 var log = require("./Logger");
 
 module.exports = function(socket){
@@ -40,34 +42,59 @@ module.exports = function(socket){
 		return {username: this.username,roles: this.infos.roles};
 	}
 
-	if(socket)
+	if(this.socket)
 	{
-		socket.on("disconnect",function(){
+		this.socket.emit("gameServerOnlinePlayers",
+			{players:MinecraftServer.getOnlinePlayers(),
+			playersMax:MinecraftServer.getConfig()["max-players"] || 0});
+		this.socket.emit("gameServerState",MinecraftServer.getState());
+
+		if(!SetupManager.isCompletlyInstalled())
+		{
+			ApplicationManager.open(this,"setup");
+		}
+
+		this.socket.on("disconnect",function(){
 			log.info("Déconnexion socket");
 		})
 
-		socket.on("login",function(infos){
+		this.socket.on("login",function(infos){
 			this.username = infos.username;
 			this.setPassword(infos.password);
 			this.check();
 			if(this.trusted)
 			{
 				log.info(this.username+" c'est connecté");
-				socket.emit("login",{success: true,infos: this.getInfos()});
+				this.socket.emit("login",{success: true,infos: this.getInfos()});
 			}
 			else
 			{
 				log.warn("Mauvaise identification");
-				socket.emit("login",{success: false,infos: infos});
+				this.socket.emit("login",{success: false,infos: infos});
 			}
 		}.bind(this));
 
-		socket.on("openApp",function(id){
+		this.socket.on("openApp",function(id){
 			ApplicationManager.open(this,id);
 		}.bind(this));
 
-		socket.on("closeApp",function(){
+		this.socket.on("closeApp",function(){
 			ApplicationManager.close(this);
+		}.bind(this));
+
+		this.socket.on("toggleGameServer",function(){
+			log.info(this.username+" démarre/Arrete le serveur");
+			MinecraftServer.toggle();
+		}.bind(this));
+
+		this.socket.on("rebootGameServer",function(){
+			log.info(this.username+" redémarre le serveur");
+			MinecraftServer.reboot();
+		}.bind(this));
+
+		this.socket.on("sendCommand",function(command){
+			log.info(this.username+" envoie la commande "+command);
+			MinecraftServer.sendCommand(command);
 		}.bind(this));
 	}
 };

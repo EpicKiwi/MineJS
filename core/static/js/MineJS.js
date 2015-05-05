@@ -138,3 +138,46 @@ app.controller("appController",function($scope,$timeout,$interpolate,socket){
 	}
 
 });
+
+app.controller("controlBarController",function($scope,socket){
+	$scope.serverStates = [{icon:"x",text:"Hors ligne"},
+						   {icon:"loop",text:"Démarrage"},
+						   {icon:"check",text:"En ligne"},
+						   {icon:"minus",text:"Inconnu"}];
+	$scope.actualState = 3;
+
+	$scope.toggleMenu = function(menuId){
+		if($scope.activeMenu == menuId)
+		{
+			$scope.activeMenu = null;
+		}
+		else
+		{
+			$scope.activeMenu = menuId;
+		}
+	}
+
+	$scope.toggleGameServer = function(){
+		socket.emit("toggleGameServer");
+	}
+
+	$scope.rebootGameServer = function(){
+		socket.emit("rebootGameServer");
+	}
+
+	$scope.sendCommand = function(command){
+		if(command)
+		{
+			$scope.command = null;
+			socket.emit("sendCommand",command);
+		}
+	}
+
+	socket.on("gameServerState",function(state){
+		$scope.actualState = state;
+	});
+
+	socket.on("gameServerOnlinePlayers",function(infos){
+		$scope.onlinePlayers = infos;
+	});
+});
