@@ -45,7 +45,7 @@ function searchExecutable()
 	{
 		if(e.code == "ENOENT")
 		{
-			log.error("Le dossier "+folder+" n'exste pas");
+			log.warn("Minecraft Le dossier "+folder+" n'exste pas, une installation est nécéssaire");
 		}
 		else
 		{

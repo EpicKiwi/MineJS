@@ -9,6 +9,7 @@ var log = require("./Logger");
 var setupManager = require("./SetupManager");
 var MinecraftServer = require("./MinecraftServer");
 var UsersManager = require("./UsersManager");
+var ApplicationManager = require("./ApplicationManager");
 var User = require("./User");
 
 var config = {};
@@ -19,6 +20,7 @@ function init(){
 
 	log.info("Chargement de la configuration")
 	loadConfig();
+	ApplicationManager.init();
 
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();
@@ -34,8 +36,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		MinecraftServer.update();
-		response.send("En cour de mise a jour");
+		response.send(JSON.stringify(ApplicationManager.getAppsAvaliable()));
 	});
 
 	//Initialisation des sockets
