@@ -23,12 +23,22 @@
 						<input type="password" placeholder="Mot de passe" ng-model="password" />
 						<input type="submit" vlaue="Se conecter"/>
 					</form>
+					<p class="infoBox">Essayez d'<a ng-click="openApp('setup')" href="#">installer</a> MineJS</p>
 				</div>
 			</div>
 		</div>
 
-		<div id="app" class="panel">
+		<div id="app" class="panel" ng-class="{active:state=='on',reduce:state=='reduce'}" ng-controller="appController">
 			
+			<ng-include src="'/static/css/app-framework.css'" id="appCssFramework" onload="loadedCss('appCssFramework')">
+			</ng-include>
+
+			<ng-include ng-if="application.css != null" src="getStaticPath(application.css)" id="appCss" onload="loadedCss('appCss')">
+			</ng-include>
+
+			<div id="app-{{application.id}}" class="app-container" ng-include="getStaticPath(application.html)">
+			</div>
+
 		</div>
 
 		<div id="bar-container">

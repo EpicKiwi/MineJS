@@ -1,0 +1,82 @@
+<div class="app-container" ng-init="tab=1">
+<nav class="side-tab-menu">
+	<div id="tab-1-title" class="tab-title" ng-class="{active: tab == 1}">
+		Bienvenue
+	</div>
+	<div id="tab-2-title" class="tab-title" ng-class="{active: tab == 2}">
+		Compte administrateur
+	</div>
+	<div id="tab-3-title" class="tab-title" ng-class="{active: tab == 3}">
+		Configurer MineJS
+	</div>
+	<div id="tab-4-title" class="tab-title" ng-class="{active: tab == 4}">
+		Version du serveur
+	</div>
+	<div id="tab-5-title" class="tab-title" ng-class="{active: tab == 5}">
+		Configurer le serveur
+	</div>
+	<div id="tab-6-title" class="tab-title" ng-class="{active: tab == 6}">
+		Terminé
+	</div>
+</nav>
+<section class="tab-content">
+	<div class="loadScreen" ng-if="loading.state" >
+			<h3>Chargement</h3>
+			<p>{{loading.message}}</p>
+	</div>
+	<div id="tab-1" ng-show="tab == 1" class="tab">
+	<div class="content bigTitle">
+		<h1>Bienvenue</h1>
+		<div class="icon-bar"> <i class="fi-download"></i> <i class="fi-torso"></i> <i class="fi-wrench"></i> <i class="fi-check"></i> </div>
+		<p>Bienvenue dans votre installation MineJS. MineJS vous permet d'installer, de configurer et d'administrer votre serveur minecraft sans aucune commande.<p>
+		<p>Durant cette installation vous serez invité a choisir votre nom d'utilisateur et votre mot de passe d'acces, la version votre serveur minecraft et sa configuration.</p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	</div>
+	<div id="tab-2" ng-show="tab == 2" class="tab">
+	<div class="content">
+		<h2>Compte administrateur</h2>
+		<p>Configurer votre compte administrateur qui vous servira à vous connecter pour chaque utilisation de MineJS. Vous pourrez ensuite créer de nouveaux comptes dans les parametres</p>
+		
+		<p>Apres avoir saisi les informations validez en appuyant sur <strong>Créer l'utilisateur</strong></p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Créer l'utilisateur</div></nav>
+	</div>
+	<div id="tab-3" ng-show="tab == 3" class="tab">
+	<div class="content">
+		<h2>Configurer MineJS</h2>
+		<p>Configurez votre application MineJS. Si vous ne savez pas laissez par défaut.<p>
+		
+		<p>des que vous avez tout remplis cliquez sur <strong>Suivant</strong></p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	</div>
+	<div id="tab-4" ng-show="tab == 4" class="tab">
+	<div class="content">
+		<h2>Version du serveur</h2>
+		<p>Séléctionnez la version du serveur minecraft que vous desirez</p>
+		
+		<p>Des que vous avez séléctionné votre version cliquez sur <strong>Installer le serveur</strong> pour télécharger le serveur correspondant et générer sa configuration par défaut</p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Installer le serveur</div></nav>
+	</div>
+	<div id="tab-5" ng-show="tab == 5" class="tab">
+	<div class="content">
+		<h2>Configurer Le serveur</h2>
+		<p>Choisissez les parametres de base pour votre serveur</p>
+		
+		<p>Des que vous avez fini votre configuration validez en appuyant sur <strong>Suivant</strong></p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	</div>
+	<div id="tab-6" ng-show="tab == 6" class="tab">
+	<div class="content bigTitle">
+		<h1>Terminé</h1>
+		<div class="icon-bar"><i class="fi-check"></i></div>
+		<p>Merci d'avoir installer MineJS. Vous pouvez maintenan vous connecter avec vos identifiants.<p>
+		<p>Pour quitter le programme d'installation cliquez sur <strong>Terminer</strong></p>
+	</div>
+	<nav class="tab-bottom-menu"><div class="button primary">Terminer</div></nav>
+	</div>
+</section>
+</div>

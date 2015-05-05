@@ -1,0 +1,92 @@
+/* Globals */
+#app-setup h1
+{
+	font-size: 100px;
+	font-weight: 300;
+	text-align: center;
+	color: {{application.style.primaryColor}};
+}
+
+/* Tab 1 */
+#app-setup .bigTitle p
+{
+	text-align: center;
+}
+
+#app-setup .bigTitle .icon-bar
+{
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#app-setup .bigTitle .icon-bar i
+{
+	margin-left: 20px;
+	margin-right: 30px;
+	font-size: 50px;
+}
+
+#app-setup #tab-1 .content, #app-setup #tab-6 .content
+{
+	width: 50%;
+	padding-top: 20vh;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#app .tab-bottom-menu
+{
+	padding-bottom: 0;
+}
+
+/* Tab 4 */
+
+#app-setup #tab-4 .big-selector
+{
+	max-height: 60vh;
+	background-color: white;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: auto;
+	border-radius: 10px;
+	border: solid 1px #A2A2A2;
+	margin-bottom: 20px;
+}
+
+#app-setup #tab-4 .big-selector .row
+{
+	width: 90%;
+	line-height: 50px;
+	padding-left: 5%;
+	padding-right: 5%;
+	border-bottom: solid 1px #A2A2A2;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+#app-setup #tab-4 .big-selector .row:hover, #app-setup #tab-4 .big-selector .row.active
+{
+	color: white;
+	background-color: {{application.style.primaryColor}};
+}
+
+#app-setup #tab-4 .big-selector .row:last-child
+{
+	border: none;
+}
+
+@media screen and (max-width: 1150px)
+{
+	#app-setup #tab-1 .content, #app-setup #tab-6 .content
+	{
+		width: 80%;
+		padding-top: 10vh;
+	}
+
+	#app-setup #tab-4 .big-selector
+	{
+		width: 100%;
+		max-height: 40vh;
+	}
+}

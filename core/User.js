@@ -1,4 +1,5 @@
 var UserManager = require("./UsersManager");
+var ApplicationManager = require("./ApplicationManager");
 var log = require("./Logger");
 
 module.exports = function(socket){
@@ -39,6 +40,14 @@ module.exports = function(socket){
 				log.warn("Mauvaise identification");
 				socket.emit("login",{success: false,infos: infos});
 			}
+		}.bind(this));
+
+		socket.on("openApp",function(id){
+			ApplicationManager.open(this,id);
+		}.bind(this));
+
+		socket.on("closeApp",function(){
+			ApplicationManager.close(this);
 		}.bind(this));
 	}
 };

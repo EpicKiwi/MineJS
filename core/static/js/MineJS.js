@@ -1,27 +1,41 @@
 var app = angular.module("MineJS",["btford.socket-io"]);
 
+//Permet l'importation de controlleurs
 app.config(function($controllerProvider, $compileProvider)
 {
     app.controllerProvider = $controllerProvider;
     app.compileProvider    = $compileProvider;
 });
 
+//Contiens les informations sur l'utilisateur
 app.factory("userFactory",function(){
 	return {
 		logged: false,
 	}
 });
 
+//Permet l'utilisation de socket.io
 app.factory("socket",function(socketFactory){
 	return socketFactory();
 });
 
-app.controller("globalController",function($scope,userFactory){
+//Controlleur global
+app.controller("globalController",function($scope,socket,userFactory){
 	$scope.isLogged = function(){
 		return userFactory.logged;
 	}
+
+	$scope.openApp = function(id){
+		console.log("openApp "+id);
+		socket.emit("openApp",id);
+	}
+
+	$scope.closeApp = function(){
+		socket.emit("closeApp");
+	}
 });
 
+//Controlleur de la boite de connexion
 app.controller("loginController",function($scope,socket,userFactory){
 	$scope.loginFail = false;
 
@@ -56,5 +70,54 @@ app.controller("loginController",function($scope,socket,userFactory){
 		timeline.to(title,0.5,{opacity:0},"+=3");
 		timeline.to(container,0,{display:"none"});
 	};
+
+});
+
+app.controller("appController",function($scope,$timeout,$interpolate,socket){
+
+	$scope.state = "off";
+	$scope.application = null;
+	$scope.dynamicCss = {};
+
+	socket.on("openApp",function(appInfos){
+		$scope.application = appInfos;
+		$scope.state = "on";
+		$scope.updateCss();
+	});
+
+	socket.on("closeApp",function(){
+		$scope.state = "off";
+		$timeout(function(){
+			$scope.application = null;
+		},500);
+	});
+
+	$scope.updateCss = function()
+	{
+		jQuery("#app style").each(function(index,element){
+			var exp = $interpolate($scope.dynamicCss[jQuery(element).attr("id")]);
+			jQuery(element).html(exp($scope));
+		});
+	}
+
+	$scope.loadedCss = function(id)
+	{
+		var css = jQuery("#"+id+" span").html();
+		$scope.dynamicCss[id] = css;
+		jQuery("#"+id+" span").html("<style id='"+id+"' >"+css+"</style>");
+		$scope.updateCss();
+	}
+
+	$scope.getStaticPath = function(file)
+	{
+		if($scope.application)
+		{
+			return "/app/"+$scope.application.id+"/"+file;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 });
