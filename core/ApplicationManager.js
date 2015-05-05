@@ -1,6 +1,8 @@
 var fs = require("fs");
+var express = require("express");
 
 var log = require("./Logger");
+var MineJS = require("./MineJS");
 
 var appsAvaliable = {};
 
@@ -68,6 +70,7 @@ function addApp(id){
 	if(app)
 	{
 		appsAvaliable[id] = app;
+		MineJS.getExpress().use("/app/"+id,express.static(__dirname+"/../apps/"+id+"/static"));
 	}
 	else
 	{
@@ -75,7 +78,42 @@ function addApp(id){
 	}
 };
 
+function openApp(user,id)
+{
+	if(appsAvaliable[id])
+	{
+		if(user.activeApp == null)
+		{
+			user.socket.emit("openApp",appsAvaliable[id].getInfos());
+			user.activeApp = appsAvaliable[id];
+		}
+		else
+		{
+			user.socket.emit("notif",{type:"info",message:"Fermez tout d'abort l'application "+user.activeApp.name});
+		}
+	}
+	else
+	{
+		log.error("L'application "+id+" n'existe pas");
+	}
+}
+
+function closeApp(user)
+{
+	if(user.activeApp != null)
+	{
+		user.socket.emit("closeApp");
+		user.activeApp = null;
+	}
+	else
+	{
+		user.socket.emit("notif",{type:"info",message:"Aucune application lancée"});
+	}
+}
+
 exports.init = init;
+exports.open = openApp;
+exports.close = closeApp;
 exports.getAppsAvaliable = function(){
 	return appsAvaliable;
 }

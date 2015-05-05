@@ -4,6 +4,7 @@ var log = require("./Logger");
 module.exports = function(socket){
 	this.socket = socket;
 	this.trusted = false;
+	this.activeApp = null;
 	this.infos = {};
 
 	this.setPassword = function(rawPassword){
