@@ -26,7 +26,6 @@ app.controller("globalController",function($scope,socket,userFactory){
 	}
 
 	$scope.openApp = function(id){
-		console.log("openApp "+id);
 		socket.emit("openApp",id);
 	}
 
@@ -80,9 +79,27 @@ app.controller("appController",function($scope,$timeout,$interpolate,socket){
 	$scope.dynamicCss = {};
 
 	socket.on("openApp",function(appInfos){
-		$scope.application = appInfos;
-		$scope.state = "on";
-		$scope.updateCss();
+		if(appInfos.script)
+		{
+			jQuery.getScript("/app/"+appInfos.id+"/"+appInfos.script,function(){
+				continueLoad();
+			}).fail(function(jqxhr, settings, exception){
+				console.error("Erreur de chargement de l'app : "+exception.message);
+				console.error(exception.stack);
+			});
+		}
+		else
+		{
+			continueLoad();
+		}
+
+		function continueLoad(){
+			$scope.application = appInfos;
+			$scope.updateCss();
+			$timeout(function(){
+				$scope.state = "on";
+			},19);
+		}
 	});
 
 	socket.on("closeApp",function(){

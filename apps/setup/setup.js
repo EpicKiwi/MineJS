@@ -9,6 +9,7 @@ var setup = new Application.gui({
 	html: 			"setup.html",
 	css: 			"setup.css",
 	style: 			{primaryColor: "#9FC236"},
+	script: 		"setupScript.js",
 
 	init: 			function(){
 		log.info("Application "+this.name+" chargée");
