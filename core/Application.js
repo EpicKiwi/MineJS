@@ -12,6 +12,7 @@ function setApplication(pObj, pParams){
     pObj.onUserOPen = pParams.onUserOpen;
     pObj.onUserClose  = pParams.onUserClose;
     pObj.needLogin = pParams.needLogin || true;
+    pObj.script     = pParams.script;
     
     return true;
 }
@@ -25,6 +26,7 @@ function ApplicationGui(pParams){
     }
     this.iconPath   = pParams.iconPath || "/static/img/defaultIcon.svg"; 
     this.css        = pParams.css;
+    this.html       = pParams.html;
     this.style      = pParams.style || {primaryColor: "#005AFF"};
     this.custom     = pParams.custom;
 }
