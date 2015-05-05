@@ -81,14 +81,51 @@
 	</div>
 	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="installServer()">Installer le serveur</div></nav>
 	</div>
-	<div id="tab-5" ng-show="tab == 5" class="tab">
+	<div id="tab-5" ng-show="tab == 5" class="tab" ng-controller="gameServerConfigSetupAppController" >
 	<div class="content">
 		<h2>Configurer Le serveur</h2>
 		<p>Choisissez les parametres de base pour votre serveur</p>
-		
+		<form>
+			<table class="formTable col-2">
+				<tr><td><label for="levelName" >Nom du monde</label></td><td><input type="text" name="levelName" ng-model="config['level-name']"/></td></tr>
+				<tr><td><label for="levelType" >Type de monde</label></td><td><select name="levelType" ng-model="config['level-type']">
+																					<option value="DEFAULT">Standard</option>
+																					<option value="FLAT">Plat</option>
+																					<option value="LARGEBIOMES">Grand biomes</option>
+																					<option value="AMPLIFIED">Amplifié</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnMonster" >Spawn de monstre</label></td><td><select name="spawnMonster" ng-model="config['spawn-monsters']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnAnimals" >Spawn d'animaux</label></td><td><select name="spawnAnimals" ng-model="config['spawn-animals']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="spawnNpc" >Spawn de villageois</label></td><td><select name="spawnNpc" ng-model="config['spawn-npcs']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="pvp" >Player Vs Player</label></td><td><select name="pvp" ng-model="config['pvp']">
+																					<option value="true">Oui</option>
+																					<option value="false">Non</option>
+																				</select></td></tr>
+				<tr><td><label for="gameMode" >Mode de jeu</label></td><td><select name="gameMode" ng-model="config['gamemode']">
+																					<option value="0">Survie</option>
+																					<option value="1">Créatif</option>
+																					<option value="3">Avanture</option>
+																					<option value="4">Spectateur</option>
+																				</select></td></tr>
+				<tr><td><label for="maxPlayer" >Joueurs maximum</label></td><td><input type="number" name="maxPlayer" ng-model="config['max-players']"/></td></tr>
+				<tr><td><label for="levelSeed" >Seed du monde</label></td><td><input placeholder="Aléatoire" type="text" name="levelSeed" ng-model="config['level-seed']"/></td></tr>
+				<tr><td><label for="motd" >Message d'accueil</label></td><td><input type="text" name="motd" ng-model="config['motd']"/></td></tr>
+				<tr><td><label for="maxHeight" >Hauteur maximale de construction</label></td><td><input type="number" name="maxHeight" ng-model="config['max-build-height']"/></td></tr>
+				<tr><td><label for="port" >Port du serveur Minecraft</label></td><td><input type="number" name="port" ng-model="config['server-port']"/></td></tr>
+			</table>
+		</form>
 		<p>Des que vous avez fini votre configuration validez en appuyant sur <strong>Suivant</strong></p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button button-primary">Suivant</div></nav>
+	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="updateConfig()">Suivant</div></nav>
 	</div>
 	<div id="tab-6" ng-show="tab == 6" class="tab">
 	<div class="content bigTitle">
@@ -97,7 +134,7 @@
 		<p>Merci d'avoir installer MineJS. Vous pouvez maintenan vous connecter avec vos identifiants.<p>
 		<p>Pour quitter le programme d'installation cliquez sur <strong>Terminer</strong></p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button primary">Terminer</div></nav>
+	<nav class="tab-bottom-menu"><div class="button primary" ng-click="closeApp()">Terminer</div></nav>
 	</div>
 </section>
 </div>

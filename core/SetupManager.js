@@ -132,6 +132,11 @@ function isCompletlyInstalled()
 }
 
 exports.isCompletlyInstalled = isCompletlyInstalled;
-exports.checklist = installChecklist;
 exports.check = checkSetup;
 exports.checkFolder = checkFolder;
+exports.getChecklist = function(){
+	return installChecklist;
+}
+exports.setChecklist = function(value){
+	installChecklist = value;
+}

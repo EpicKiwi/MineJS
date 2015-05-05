@@ -3,6 +3,8 @@ var Application = require(__dirname+"/../../core/Application");
 var User = require(__dirname+"/../../core/User");
 var MineJS = require(__dirname+"/../../core/MineJS");
 var MinecraftServer = require(__dirname+"/../../core/MinecraftServer");
+var SetupManager = require(__dirname+"/../../core/SetupManager");
+var ApplicationManager = require(__dirname+"/../../core/ApplicationManager");
 
 var setup = new Application.gui({
 	id: 			"setup",
@@ -19,13 +21,23 @@ var setup = new Application.gui({
 	},
 
 	onUserOpen: 	function(user){
+		if(SetupManager.isCompletlyInstalled())
+		{
+			user.socket.emit("notif",{type:"error",message:"MineJS est déjà installé"});
+			setTimeout(function() {
+				ApplicationManager.close(user);
+			}, 500);
+			return false;
+		}
 		this.custom.config = MineJS.getConfig();
+		this.custom.gameServerConfig = MinecraftServer.getConfig();
 
 		user.socket.on("createAdminSetupApp",function(infos){
 			var admin = new User();
 			admin.username = infos.username;
 			admin.setPassword(infos.password);
 			admin.save();
+			SetupManager.getChecklist().users = true;
 			user.socket.emit("createAdminSetupApp",{success:true});
 		});
 
@@ -33,19 +45,30 @@ var setup = new Application.gui({
 			MineJS.setConfig(config);
 			MineJS.saveConfig();
 			MinecraftServer.updateFolder();
+			SetupManager.getChecklist().config = true;
 			user.socket.emit("saveConfigSetupApp",{success:true});
 		});
 
 		user.socket.on("installServerSetupApp",function(){
 			MinecraftServer.install(function(){
+				user.socket.emit("gameServerConfigSetupApp",MinecraftServer.getConfig());
+				SetupManager.getChecklist().gameServer = true;
 				user.socket.emit("installServerSetupApp",{success:true});
 			});
+		});
+
+		user.socket.on("updateGameServerConfigSetupApp",function(config){
+			MinecraftServer.setConfig(config);
+			MinecraftServer.saveConfig(config);
+			user.socket.emit("updateGameServerConfigSetupApp",{success:true});
 		});
 	},
 
 	onUserClose: 	function(user){
 		user.socket.removeAllListeners("createAdminSetupApp");
 		user.socket.removeAllListeners("saveConfigSetupApp");
+		user.socket.removeAllListeners("installServerSetupApp");
+		user.socket.removeAllListeners("updateGameServerConfigSetupApp");
 	},
 });
 

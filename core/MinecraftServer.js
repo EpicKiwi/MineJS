@@ -16,6 +16,7 @@ var running = false;
 var emitter = new events.EventEmitter();
 var lastCommand = null;
 var onlinePlayers = [];
+var config = {};
 
 function getAbsolutePath()
 {
@@ -26,6 +27,7 @@ function init()
 {
 	VersionsManager.loadAvaliableVersions(function(){
 		folder = MineJS.getConfig().gameServerFolder;
+		loadConfig();
 		searchExecutable();
 		eventDispatcher();
 		if(MineJS.getConfig().gameServerAutoStart)
@@ -194,7 +196,7 @@ function reboot(){
 	});
 }
 
-function install(){
+function install(callback){
 	SetupManager.checkFolder(getAbsolutePath());
 	if(MineJS.getConfig().gameServerAcceptEula)
 	{
@@ -208,6 +210,10 @@ function install(){
 			log.info("Minecraft : Génération de la configuration");
 			generateConfig(function(){
 				log.info("Minecraft : serveur opérationnel");
+				loadConfig();
+				if(callback){
+					callback();
+				}
 			});
 		}
 	});
@@ -235,6 +241,63 @@ function update(){
 	}
 }
 
+function loadConfig(){
+	try
+	{
+		var configFile = fs.readFileSync(getAbsolutePath()+"/server.properties",{encoding:"utf8"});
+	}
+	catch(e)
+	{
+		if(e.code == "ENOENT")
+		{
+			log.warn("Minecraft Impossible de charger la configuration, le fichier server.properties n'existe pas");
+		}
+		else
+		{
+			console.trace(e);
+		}
+		return false;
+	}
+
+	configFile = configFile.split("\r\n");
+
+	for(var i = 0; i<configFile.length; i++)
+	{
+		if(configFile[i].search(/#.*/) == -1)
+		{
+			var line = configFile[i].split("=");
+			config[line[0]] = line[1];
+		}
+	}
+	return true;
+}
+
+function saveConfig(){
+	var data = "";
+	for(var propery in config)
+	{
+		data += propery+"="+config[propery]+"\r\n";
+	}
+
+	try
+	{
+		fs.writeFileSync(getAbsolutePath()+"/server.properties",data);
+	}
+	catch(e)
+	{
+		if(e.code == "ENOENT")
+		{
+			log.warn("Minecraft Impossible de charger la configuration, le fichier server.properties n'existe pas");
+		}
+		else
+		{
+			console.trace(e);
+		}
+		return false;
+	}
+
+}
+
 exports.getPath = getAbsolutePath;
 exports.init = init;
 exports.run = run;
@@ -242,6 +305,8 @@ exports.sendCommand = sendCommand;
 exports.isOutdated = isOutdated;
 exports.install = install;
 exports.update = update;
+exports.loadConfig = loadConfig;
+exports.saveConfig = saveConfig;
 
 exports.getVersion = function(){
 	return version;
@@ -257,4 +322,16 @@ exports.getEmitter = function(){
 
 exports.getOnlinePlayers = function(){
 	return onlinePlayers;
+}
+
+exports.updateFolder = function(){
+	folder = MineJS.getConfig().gameServerFolder;
+}
+
+exports.getConfig = function(){
+	return config;
+}
+
+exports.setConfig = function(value){
+	config = value;
 }

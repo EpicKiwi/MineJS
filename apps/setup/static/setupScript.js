@@ -61,3 +61,29 @@ app.controllerProvider.register("installServerSetupAppController",function($scop
 	};
 
 });
+
+app.controllerProvider.register("gameServerConfigSetupAppController",function($scope,socket){
+	loadConfig($scope.application.custom.gameServerConfig);
+
+	socket.on("gameServerConfigSetupApp",function(config){
+		loadConfig(config);
+	});
+
+	$scope.updateConfig = function(){
+		socket.emit("updateGameServerConfigSetupApp",$scope.config)
+		socket.once("updateGameServerConfigSetupApp",function(result){
+			if(result.success)
+			{
+				$scope.nextStep();
+			}
+		});
+	}
+
+	function loadConfig(config)
+	{
+		$scope.config = config;
+		$scope.config["max-players"] = parseInt(config["max-players"],10);
+		$scope.config["max-build-height"] = parseInt(config["max-build-height"],10);
+		$scope.config["server-port"] = parseInt(config["server-port"],10);
+	}
+});

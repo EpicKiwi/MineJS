@@ -9,7 +9,7 @@ function setApplication(pObj, pParams){
     pObj.name = pParams.name;               
     pObj.description = pParams.description;
     pObj.init = pParams.init;
-    pObj.onUserOPen = pParams.onUserOpen;
+    pObj.onUserOpen = pParams.onUserOpen;
     pObj.onUserClose  = pParams.onUserClose;
     pObj.needLogin = pParams.needLogin || true;
     pObj.script     = pParams.script;

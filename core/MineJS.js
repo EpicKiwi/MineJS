@@ -6,7 +6,7 @@ var fs = require("fs");
 var yaml = require("js-yaml");
 
 var log = require("./Logger");
-var setupManager = require("./SetupManager");
+var SetupManager = require("./SetupManager");
 var MinecraftServer = require("./MinecraftServer");
 var UsersManager = require("./UsersManager");
 var ApplicationManager = require("./ApplicationManager");
@@ -16,7 +16,7 @@ var config = {};
 
 function init(){
 	log.info("Verification de l'installation");
-	setupManager.check();
+	SetupManager.check();
 
 	log.info("Chargement de la configuration")
 	loadConfig();
@@ -36,7 +36,7 @@ function init(){
 
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
-		response.send(JSON.stringify(ApplicationManager.getAppsAvaliable()));
+		response.send(JSON.stringify(SetupManager.getChecklist()));
 	});
 
 	//Initialisation des sockets
@@ -62,7 +62,19 @@ function loadConfig(){
 	}
 }
 
+function saveConfig(){
+	try
+	{
+		fs.writeFileSync(__dirname+"/../config/config.yml",yaml.safeDump(config));
+	}
+	catch(e)
+	{
+		console.trace(e);
+	}
+}
+
 exports.init = init;
+exports.saveConfig = saveConfig;
 
 exports.getIo = function(){
 	return io;
@@ -74,4 +86,8 @@ exports.getExpress = function(){
 
 exports.getConfig = function(){
 	return config;
+};
+
+exports.setConfig = function(value){
+	config = value;
 };

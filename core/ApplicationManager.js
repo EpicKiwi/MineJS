@@ -84,6 +84,7 @@ function openApp(user,id)
 	{
 		if(user.activeApp == null)
 		{
+			appsAvaliable[id].onUserOpen(user);
 			user.socket.emit("openApp",appsAvaliable[id].getInfos());
 			user.activeApp = appsAvaliable[id];
 		}
@@ -102,6 +103,7 @@ function closeApp(user)
 {
 	if(user.activeApp != null)
 	{
+		user.activeApp.onUserClose(user);
 		user.socket.emit("closeApp");
 		user.activeApp = null;
 	}
