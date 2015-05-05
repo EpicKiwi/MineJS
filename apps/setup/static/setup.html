@@ -31,34 +31,55 @@
 		<p>Bienvenue dans votre installation MineJS. MineJS vous permet d'installer, de configurer et d'administrer votre serveur minecraft sans aucune commande.<p>
 		<p>Durant cette installation vous serez invité a choisir votre nom d'utilisateur et votre mot de passe d'acces, la version votre serveur minecraft et sa configuration.</p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="nextStep()">Démarrer</div></nav>
 	</div>
-	<div id="tab-2" ng-show="tab == 2" class="tab">
+	<div id="tab-2" ng-show="tab == 2" class="tab" ng-controller="adminSetupAppController" >
 	<div class="content">
 		<h2>Compte administrateur</h2>
 		<p>Configurer votre compte administrateur qui vous servira à vous connecter pour chaque utilisation de MineJS. Vous pourrez ensuite créer de nouveaux comptes dans les parametres</p>
-		
+		<form>
+			<table class="formTable">
+				<tr><td><label for="username" >Nom d'utilisateur</label></td><td><input type="text" name="username" ng-model="admin.username"/></td></tr>
+				<tr><td><label for="password" >Mot de passe</label></td><td><input type="password" name="password" ng-model="admin.password"/></td></tr>
+				<tr><td><label for="passwordVerif" >Verification</label></td><td><input type="password" name="passwordVerif" ng-class="{badEntry:passwordVerif!=admin.password}" ng-model="passwordVerif"/></td></tr>
+			</table>
+		</form>
 		<p>Apres avoir saisi les informations validez en appuyant sur <strong>Créer l'utilisateur</strong></p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Créer l'utilisateur</div></nav>
+	<nav class="tab-bottom-menu"><div ng-click="createAdmin()" class="button button-primary">Créer l'utilisateur</div></nav>
 	</div>
-	<div id="tab-3" ng-show="tab == 3" class="tab">
+	<div id="tab-3" ng-show="tab == 3" class="tab" ng-controller="configMineJSSetupAppController">
 	<div class="content">
 		<h2>Configurer MineJS</h2>
 		<p>Configurez votre application MineJS. Si vous ne savez pas laissez par défaut.<p>
-		
+		<form>
+			<table class="formTable">
+				<tr><td><label for="gameServerFolder" >Repertoir d'installation du serveur</label></td><td><input type="text" name="gameServerFolder" ng-model="application.custom.config.gameServerFolder"/></td></tr>
+				<tr><td><label for="autostart" >Démarrage du serveur avec MineJS</label></td><td><select name="autostart" ng-model="application.custom.config.gameServerAutoStart">
+					<option value="true">Oui</option>
+					<option value="false">Non</option>
+				</select></td></tr>
+				<tr><td><label for="eula" >Accepter la loi EULA</label></td><td><select name="eula" ng-model="application.custom.config.gameServerAcceptEula">
+					<option value="true">Oui</option>
+					<option value="false">Non</option>
+				</select></td></tr>
+				<tr><td><label for="port" >Port du serveur web</label></td><td><input type="number" name="port" ng-model="application.custom.config.port"/></td></tr>
+			</table>
+		</form>
 		<p>des que vous avez tout remplis cliquez sur <strong>Suivant</strong></p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	<nav class="tab-bottom-menu"><div ng-click="saveConfig()" class="button button-primary">Suivant</div></nav>
 	</div>
-	<div id="tab-4" ng-show="tab == 4" class="tab">
+	<div id="tab-4" ng-show="tab == 4" class="tab" ng-controller="installServerSetupAppController">
 	<div class="content">
 		<h2>Version du serveur</h2>
-		<p>Séléctionnez la version du serveur minecraft que vous desirez</p>
-		
+		<p>Séléctionnez la version du serveur minecraft que vous desirez. Seul le serveur vanilla est disponible pour le momment</p>
+		<div class="big-selector">
+			<div class="row active">Vanilla</div>
+		</div>
 		<p>Des que vous avez séléctionné votre version cliquez sur <strong>Installer le serveur</strong> pour télécharger le serveur correspondant et générer sa configuration par défaut</p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Installer le serveur</div></nav>
+	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="installServer()">Installer le serveur</div></nav>
 	</div>
 	<div id="tab-5" ng-show="tab == 5" class="tab">
 	<div class="content">
@@ -67,7 +88,7 @@
 		
 		<p>Des que vous avez fini votre configuration validez en appuyant sur <strong>Suivant</strong></p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button" ng-Click="closeApp()">Sortir</div><div class="button button-primary">Suivant</div></nav>
+	<nav class="tab-bottom-menu"><div class="button button-primary">Suivant</div></nav>
 	</div>
 	<div id="tab-6" ng-show="tab == 6" class="tab">
 	<div class="content bigTitle">

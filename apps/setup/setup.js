@@ -1,5 +1,8 @@
 var log = require(__dirname+"/../../core/Logger");
 var Application = require(__dirname+"/../../core/Application");
+var User = require(__dirname+"/../../core/User");
+var MineJS = require(__dirname+"/../../core/MineJS");
+var MinecraftServer = require(__dirname+"/../../core/MinecraftServer");
 
 var setup = new Application.gui({
 	id: 			"setup",
@@ -10,17 +13,39 @@ var setup = new Application.gui({
 	css: 			"setup.css",
 	style: 			{primaryColor: "#9FC236"},
 	script: 		"setupScript.js",
+	custom: 		{},
 
 	init: 			function(){
-		log.info("Application "+this.name+" chargée");
 	},
 
 	onUserOpen: 	function(user){
-		log.info(user.infos.username+" ouvre l'application setup");
+		this.custom.config = MineJS.getConfig();
+
+		user.socket.on("createAdminSetupApp",function(infos){
+			var admin = new User();
+			admin.username = infos.username;
+			admin.setPassword(infos.password);
+			admin.save();
+			user.socket.emit("createAdminSetupApp",{success:true});
+		});
+
+		user.socket.on("saveConfigSetupApp",function(config){
+			MineJS.setConfig(config);
+			MineJS.saveConfig();
+			MinecraftServer.updateFolder();
+			user.socket.emit("saveConfigSetupApp",{success:true});
+		});
+
+		user.socket.on("installServerSetupApp",function(){
+			MinecraftServer.install(function(){
+				user.socket.emit("installServerSetupApp",{success:true});
+			});
+		});
 	},
 
 	onUserClose: 	function(user){
-		log.info(user.infos.username+" a fermé l'application setup");
+		user.socket.removeAllListeners("createAdminSetupApp");
+		user.socket.removeAllListeners("saveConfigSetupApp");
 	},
 });
 
