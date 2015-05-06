@@ -17,7 +17,7 @@
 		<div id="start-panel" class="panel">
 
 			<div id="iconContainer">
-				<div ng-click="openApp(app.id)" ng-repeat="app in avaliableApps|filter:{showIcon:true}" class="appIcon" title="{{app.description}}">
+				<div ng-click="openApp(app.id)" ng-repeat="app in avaliableApps|filter:{type:'gui',showIcon:true}" class="appIcon" title="{{app.description}}">
 					<div style="background-color:{{app.style.primaryColor}}" class="appImage">
 						<img src="{{getIconPath(app.icon,app.id)}}" alt="icone de {{app.name}}"/>
 					</div>

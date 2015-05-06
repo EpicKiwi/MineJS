@@ -25,6 +25,10 @@ app.controller("globalController",function($scope,socket,userFactory){
 		return userFactory.logged;
 	}
 
+	$scope.isDisplayable = function(value,index){
+		console.log(value,index);
+	}
+
 	$scope.openApp = function(id){
 		socket.emit("openApp",id);
 	}

@@ -4,7 +4,7 @@ var express = require("express");
 var log = require("./Logger");
 var MineJS = require("./MineJS");
 
-var appsAvaliable = {};
+var appsAvaliable = [];
 
 function init(){
 
@@ -69,7 +69,7 @@ function addApp(id){
 	var app = require(__dirname+"/../apps/"+id+"/"+id);
 	if(app)
 	{
-		appsAvaliable[id] = app;
+		appsAvaliable.push(app);
 		MineJS.getExpress().use("/app/"+id,express.static(__dirname+"/../apps/"+id+"/static"));
 	}
 	else
@@ -80,15 +80,16 @@ function addApp(id){
 
 function openApp(user,id)
 {
-	if(appsAvaliable[id])
+	var app = getApp(id);
+	if(app)
 	{
 		if(user.activeApp == null)
 		{
-			if(user.trusted || !appsAvaliable[id].needLogin)
+			if(user.trusted || !app.needLogin)
 			{
-				appsAvaliable[id].onUserOpen(user);
-				user.socket.emit("openApp",appsAvaliable[id].getInfos());
-				user.activeApp = appsAvaliable[id];
+				app.onUserOpen(user);
+				user.socket.emit("openApp",app.getInfos());
+				user.activeApp = app;
 			}
 			else
 			{
@@ -105,6 +106,18 @@ function openApp(user,id)
 	{
 		log.error("L'application "+id+" n'existe pas");
 	}
+}
+
+function getApp(id)
+{
+	for(var i = 0; i<appsAvaliable.length;i++)
+	{
+		if(appsAvaliable[i].id == id)
+		{
+			return appsAvaliable[i];
+		}
+	}
+	return false;
 }
 
 function closeApp(user)
