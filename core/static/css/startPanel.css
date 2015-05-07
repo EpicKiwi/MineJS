@@ -163,6 +163,8 @@ a
 	margin: 5px;
 	overflow: hidden;
 	border-radius: 10px;
+	text-align: center;
+	line-height: 170px;
 }
 
 #iconContainer .appIcon .appName
@@ -189,6 +191,7 @@ a
 	content: "";
 	position: absolute;
 	bottom: 0;
+	left: 0;
 	height: 100%;
 	width: 100%;
 	transition: 0.5s opacity;
