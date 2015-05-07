@@ -30,6 +30,7 @@ function getUsers(){
 		{
 			var username = usersFiles[i].replace(/(.*).yml/,"$1");
 			users[username] = yaml.safeLoad(fs.readFileSync(__dirname+"/../config/users/"+usersFiles[i]));
+			users[username].username = username;
 		}
 		catch(e)
 		{
