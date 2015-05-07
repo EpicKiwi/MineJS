@@ -1,0 +1,39 @@
+<div class="app-container" ng-controller="minejsAppController">
+<nav class="side-tab-menu">
+
+	<div id="tab-1-title" class="tab-title" ng-click="tab = 1" ng-class="{active: tab == 1}">
+		Utilisateurs
+	</div>
+
+	<div id="tab-2-title" class="tab-title" ng-click="tab = 2" ng-class="{active: tab == 2}">
+		A propos
+	</div>
+
+	<div class="separator"></div>
+
+	<div id="tab-5-title" class="tab-title" ng-click="closeApp()">
+		Quitter
+	</div>
+
+</nav>
+<section class="tab-content">
+
+	<div id="tab-1" ng-show="tab == 1" class="tab" ng-controller="usersMinejsAppController">
+		<div class="content">
+			<h2>Utilisateurs</h2>
+			<p>Modifiez ou créez ici des utilisateurs pouvant acceder à MineJS</p>
+			<div class="big-selector">
+				<div class="row" ng-repeat="user in users" >{{user.username}}</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="tab-2" ng-show="tab == 2" class="tab">
+		<div class="content">
+			<h2>A propos</h2>
+			<p>A rédiger</p>
+		</div>
+	</div>
+
+</section>
+</div>
