@@ -25,6 +25,15 @@
 			<div class="big-selector">
 				<div class="row" ng-repeat="user in users" >{{user.username}}</div>
 			</div>
+			<h3>Créer un nouvel utilisateur</h3>
+			<form>
+				<table class="formTable">
+					<tr><td><label for="username">Nom d'utilisateur</label></td><td><input type="text" name="username" ng-model="user.username" /></td></tr>
+					<tr><td><label for="password">Mot de passe</label></td><td><input type="password" name="password" ng-model="user.password" /></td></tr>
+					<tr><td><label for="passwordVerif">Verification</label></td><td><input type="password" name="passwordVerif" ng-model="verif" /></td></tr>
+				</table>
+				<p class="align-right form-buttons"><span class="button button-primary" ng-click="saveUser()">Ajouter</span></p>
+			</form>
 		</div>
 	</div>
 
