@@ -54,6 +54,15 @@
 
 		<div id="bar-container" ng-controller="controlBarController">
 
+			<div class="menu notif" ng-class="{show:notif.show}">
+				<div class="notifIcon {{notifTypes[notif.type].className}}">
+					<i class="fi-{{notifTypes[notif.type].icon}}"></i>
+				</div>
+				<div class="notifMessage">
+					{{notif.message}}
+				</div>
+			</div>
+
 			<div class="menu hide" id="menuServer" ng-class="{hide:activeMenu != 'server'}">
 				<span ng-click="toggleGameServer()" ><i class="fi-power"></i></span>
 				<span ng-click="rebootGameServer()" ><i class="fi-refresh"></i></span>

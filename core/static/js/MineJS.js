@@ -159,7 +159,20 @@ app.controller("appController",function($scope,$timeout,$interpolate,socket){
 
 });
 
-app.controller("controlBarController",function($scope,socket){
+app.controller("controlBarController",function($scope,$timeout,socket){
+
+	$scope.notif = {
+		type: "info",
+		message: "Un lama",
+		show: false
+	}
+
+	$scope.notifTypes = {
+		info : {icon: "info",className: "info"},
+		error : {icon: "x",className: "error"},
+		check : {icon: "check",className: "check"},
+	}
+
 	$scope.serverStates = [{icon:"x",text:"Hors ligne"},
 						   {icon:"loop",text:"Démarrage"},
 						   {icon:"check",text:"En ligne"},
@@ -193,6 +206,13 @@ app.controller("controlBarController",function($scope,socket){
 		}
 	}
 
+	$scope.showNotif = function(){
+		$scope.notif.show = true;
+		$timeout(function(){
+			$scope.notif.show = false;
+		},5000);
+	}
+
 	socket.on("gameServerState",function(state){
 		$scope.actualState = state;
 	});
@@ -200,4 +220,11 @@ app.controller("controlBarController",function($scope,socket){
 	socket.on("gameServerOnlinePlayers",function(infos){
 		$scope.onlinePlayers = infos;
 	});
+
+	socket.on("notif",function(notif){
+		$scope.notif.type = notif.type;
+		$scope.notif.message = notif.message;
+		$scope.showNotif();
+	});
+
 });

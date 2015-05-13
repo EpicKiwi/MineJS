@@ -67,6 +67,9 @@ module.exports = function(socket){
 				log.info(this.username+" c'est connecté");
 				this.socket.emit("login",{success: true,infos: this.getInfos()});
 				this.socket.emit("avaliableApps",ApplicationManager.getAppsAvaliable());
+				setTimeout(function(){
+					this.socket.emit("notif",{type:"check",message:"Bienvenue "+infos.username})
+				}.bind(this),500);
 			}
 			else
 			{

@@ -50,11 +50,13 @@ var config = new Application.gui({
 				}
 				else
 				{
+					user.socket.emit("notif",{type:"error",message:"Une erreur est survenu durant la suppression"});
 					user.socket.emit("deleteUserMinejsApp",{success:false,message:"Une erreur est survenu durant la suppression"});
 				}
 			}
 			else
 			{
+				user.socket.emit("notif",{type:"error",message:"Vous ne pouvez pas vous supprimmer"});
 				user.socket.emit("deleteUserMinejsApp",{success:false,message:"Vous ne pouvez pas vous supprimmer"});
 			}
 		});
