@@ -1,6 +1,8 @@
 var log = require(__dirname+"/../../core/Logger");
 var Application = require(__dirname+"/../../core/Application");
+var MineJS = require(__dirname+"/../../core/MineJS");
 var UsersManager = require(__dirname+"/../../core/UsersManager");
+var User = require(__dirname+"/../../core/User");
 
 var config = new Application.gui({
 	id: 			"minejs",
@@ -9,6 +11,7 @@ var config = new Application.gui({
 	needLogin: 		true,
 	html: 			"minejs.html",
 	script: 		"minejsScript.js",
+	css: 			"minejs.css",
 	icon: 			"minejs.svg",
 	style: 			{primaryColor: "#9FC236"},
 	custom: 		{},
@@ -18,6 +21,54 @@ var config = new Application.gui({
 
 	onUserOpen: 	function(user){
 		this.custom.users = UsersManager.getUsers();
+		this.custom.config = MineJS.getConfig();
+		this.custom.version = MineJS.getVersion();
+
+		user.socket.on("createUserMinejsApp",function(infos){
+			var newUser = new User();
+			newUser.username = infos.username;
+			newUser.setPassword(infos.password);
+			if(!newUser.isExist())
+			{
+				newUser.save();
+				log.info(user.username+" crée un nouvel utilisateur "+newUser.username);
+				user.socket.emit("createUserMinejsApp",{success:true,message:"L'utilisateur a été créé"});
+			}
+			else
+			{
+				user.socket.emit("createUserMinejsApp",{success:false,message:"L'utilisateur existe déjà"});
+			}
+		});
+
+		user.socket.on("deleteUserMinejsApp",function(delUser){
+			if(delUser != user.username)
+			{
+				if(UsersManager.deleteUser(delUser))
+				{
+					log.info(user.username+" supprimme "+delUser);
+					user.socket.emit("deleteUserMinejsApp",{success:true,message:"L'utilisateur a été supprimé"});
+				}
+				else
+				{
+					user.socket.emit("deleteUserMinejsApp",{success:false,message:"Une erreur est survenu durant la suppression"});
+				}
+			}
+			else
+			{
+				user.socket.emit("deleteUserMinejsApp",{success:false,message:"Vous ne pouvez pas vous supprimmer"});
+			}
+		});
+
+		user.socket.on("saveConfigMinejsApp",function(config){
+			MineJS.setConfig(config);
+			MineJS.saveConfig();
+			user.socket.emit("saveConfigMinejsApp",{success:true,message:"Config sauvegardée"});
+		});
+
+		user.socket.on("refreshUsersMinejsApp",function(){
+			var users = UsersManager.getUsers();
+			user.socket.emit("refreshUsersMinejsApp",users);
+		});
 	},
 
 	onUserClose: 	function(user){

@@ -94,7 +94,29 @@ function hashString(str)
 	return result;
 }
 
+function deleteUser(username)
+{
+	try
+	{
+		fs.unlinkSync(__dirname+"/../config/users/"+username+".yml");
+		return true;
+	}
+	catch(e)
+	{
+		if(e.code != "ENOENT")
+		{
+			console.trace(e);
+		}
+		else
+		{
+			log.warn("L'utilisateur "+username+" ne peut pas etre supprimé : Il n'existe pas");
+		}
+		return false;
+	}
+}
+
 exports.getUsers = getUsers;
 exports.getInfos = getInfos;
 exports.hashString = hashString;
+exports.deleteUser = deleteUser;
 exports.check = check;

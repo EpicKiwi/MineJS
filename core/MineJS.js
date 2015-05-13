@@ -14,6 +14,7 @@ var BroadcastManager = require("./BroadcastManager");
 var User = require("./User");
 
 var config = {};
+var version = "0.1.0-beta";
 
 function init(){
 	log.info("Verification de l'installation");
@@ -84,7 +85,11 @@ exports.getIo = function(){
 
 exports.getExpress = function(){
 	return expressApp;
-};;
+};
+
+exports.getVersion = function(){
+	return version;
+};
 
 exports.getConfig = function(){
 	return config;

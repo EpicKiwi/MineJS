@@ -97,5 +97,21 @@ module.exports = function(socket){
 			log.info(this.username+" envoie la commande "+command);
 			MinecraftServer.sendCommand(command);
 		}.bind(this));
-	}
+	};
+
+	this.isExist = function(){
+		try
+		{
+			fs.accessSync(__dirname+"/../config/users/"+this.username+".yml");
+			return true;
+		}
+		catch(e)
+		{
+			return false;
+			if(e.code != "ENOENT")
+			{
+				console.trace(e);
+			}
+		}
+	};
 };

@@ -21,6 +21,7 @@ app.factory("socket",function(socketFactory){
 
 //Controlleur global
 app.controller("globalController",function($scope,socket,userFactory){
+
 	$scope.isLogged = function(){
 		return userFactory.logged;
 	}

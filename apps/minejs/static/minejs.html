@@ -6,6 +6,10 @@
 	</div>
 
 	<div id="tab-2-title" class="tab-title" ng-click="tab = 2" ng-class="{active: tab == 2}">
+		Configuration
+	</div>
+
+	<div id="tab-3-title" class="tab-title" ng-click="tab = 3" ng-class="{active: tab == 3}">
 		A propos
 	</div>
 
@@ -23,24 +27,58 @@
 			<h2>Utilisateurs</h2>
 			<p>Modifiez ou créez ici des utilisateurs pouvant acceder à MineJS</p>
 			<div class="big-selector">
-				<div class="row" ng-repeat="user in users" >{{user.username}}</div>
+				<div class="row" ng-repeat="user in users" >{{user.username}} <span class="icon-bar" ><i class="fi-x" ng-click="deleteUser(user.username)" ></i></span> </div>
 			</div>
 			<h3>Créer un nouvel utilisateur</h3>
+			<div class="alert error" ng-if="form.errorMessage">
+				{{form.errorMessage}}
+			</div>
 			<form>
 				<table class="formTable">
 					<tr><td><label for="username">Nom d'utilisateur</label></td><td><input type="text" name="username" ng-model="user.username" /></td></tr>
 					<tr><td><label for="password">Mot de passe</label></td><td><input type="password" name="password" ng-model="user.password" /></td></tr>
-					<tr><td><label for="passwordVerif">Verification</label></td><td><input type="password" name="passwordVerif" ng-model="verif" /></td></tr>
+					<tr><td><label for="passwordVerif">Verification</label></td><td><input type="password" name="passwordVerif" ng-class="{badEntry:verif!=user.password}" ng-model="verif" /></td></tr>
 				</table>
 				<p class="align-right form-buttons"><span class="button button-primary" ng-click="saveUser()">Ajouter</span></p>
 			</form>
 		</div>
 	</div>
 
-	<div id="tab-2" ng-show="tab == 2" class="tab">
+	<div id="tab-2" ng-show="tab == 2" class="tab" ng-controller="configMinejsAppController">
 		<div class="content">
-			<h2>A propos</h2>
-			<p>A rédiger</p>
+			<h2>Configuration</h2>
+			<p>Configurez votre application <strong>MineJS</strong></p>
+			<form>
+				<table class="formTable">
+					<tr><td><label for="gameServerFolder" >Repertoir d'installation du serveur</label></td><td><input type="text" name="gameServerFolder" ng-model="config.gameServerFolder"/></td></tr>
+					<tr><td><label for="autostart" >Démarrage du serveur avec MineJS</label></td><td><select name="autostart" ng-model="config.gameServerAutoStart">
+						<option value="true">Oui</option>
+						<option value="false">Non</option>
+					</select></td></tr>
+					<tr><td><label for="eula" >Accepter les <a href="https://account.mojang.com/documents/minecraft_eula" target="_blank">conditions générales</a></label></td><td><select name="eula" ng-model="config.gameServerAcceptEula">
+						<option value="true">Oui</option>
+						<option value="false">Non</option>
+					</select></td></tr>
+					<tr><td><label for="port" >Port du serveur web</label></td><td><input type="number" name="port" ng-model="config.port"/></td></tr>
+				</table>
+			</form>
+			<p>Une redémarrage de MineJS sera nécéssaire pour actualiser la configuration</p>
+			<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="save()">Sauvegarder <i class="fi-check" ng-if="saveSuccess"></i></div></nav>
+		</div>
+	</div>
+
+	<div id="tab-3" ng-show="tab == 3" class="tab">
+		<div class="content aboutTab">
+			<h1>MineJS</h1>
+			<p>MineJS est un serveur web visant a symplifier la création et l'administration de serveur minecraft. Il se présente comme un facade et permet au travers des messages de console du serveur d'administrer celui-ci</p>
+			<p>Merci à</p>
+			<p>La communauté Bukkit</p>
+			<p>Vous pour utiliser MineJS</p>
+			<p><i class="fi-heart"></i></p>
+			<a href="https://github.com/EpicKiwi/MineJS" target="_blank" title="Voir sur GitHub"><i class="icon fi-social-github"></i></a>
+			<a href="http://www.bukkit.fr/index.php/topic/17230-minejs-la-gestion-de-serveur-en-full-javascript/" target="_blank" title="Commenter sur Bukkit.fr"><i class="icon fi-comment"></i></a>
+			<a href="https://github.com/EpicKiwi/MineJS/issues/new" target="_blank" title="Un bug ?"><i class="icon fi-skull"></i></a>
+			<p>Version : {{application.custom.version}}</p>
 		</div>
 	</div>
 

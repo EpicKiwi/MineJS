@@ -1,0 +1,49 @@
+#app-minejs .big-selector .row .icon-bar
+{
+	float: right;
+	opacity: 0;
+	transition: all 0.5s;
+	color: white;
+}
+
+#app-minejs .big-selector .row:hover .icon-bar
+{
+	opacity: 1;
+}
+
+#app-minejs .aboutTab
+{
+	text-align: center;
+}
+
+#app-minejs .aboutTab p
+{
+	text-align: center;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#app-minejs .aboutTab h1
+{
+	text-align: center;
+	font-size: 100px;
+	font-weight: 300;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: {{application.style.primaryColor}};
+}
+
+#app-minejs .aboutTab .icon
+{
+	font-size: 50px;
+	color: #717171;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#app-minejs .aboutTab .fi-heart
+{
+	color: #D3405F;
+	font-size: 25px;
+}
