@@ -219,6 +219,12 @@
 	text-shadow: #428EEC 0 0 5px;
 }
 
+#bar-container .menu.notif .notifIcon.message
+{
+	color: #F4BD00;
+	text-shadow: #F4BD00 0 0 5px;
+}
+
 
 #bar-container .menu.notif .notifMessage
 {

@@ -171,6 +171,7 @@ app.controller("controlBarController",function($scope,$timeout,socket){
 		info : {icon: "info",className: "info"},
 		error : {icon: "x",className: "error"},
 		check : {icon: "check",className: "check"},
+		message : {icon: "comment",className: "message"},
 	}
 
 	$scope.serverStates = [{icon:"x",text:"Hors ligne"},
