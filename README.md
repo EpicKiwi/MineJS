@@ -10,6 +10,7 @@ MineJS est pourvus d'un système d'applications permettant d'exploiter plus en p
 ##Téléchargement
 Pour télécharger MineJS vous pouvez cloner ce repository sur votre bureau ou télécharger une archive complète contenant les modules NodeJS.
 
+ * [version 0.2.0](https://dl.dropboxusercontent.com/u/50252996/Karton/MineJS-020.zip)
  * [Version 0.1.0](https://dl.dropboxusercontent.com/u/50252996/Karton/MineJS-010.zip)
 
 ##Installation

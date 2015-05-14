@@ -14,7 +14,7 @@ var BroadcastManager = require("./BroadcastManager");
 var User = require("./User");
 
 var config = {};
-var version = "0.1.0-beta";
+var version = "0.2.0-beta";
 
 function init(){
 	log.info("Verification de l'installation");
