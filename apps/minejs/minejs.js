@@ -65,6 +65,7 @@ var config = new Application.gui({
 			MineJS.setConfig(config);
 			MineJS.saveConfig();
 			user.socket.emit("saveConfigMinejsApp",{success:true,message:"Config sauvegardée"});
+			user.socket.emit("notif",{type:"info",message:"Vous devez redemarrer MineJS pour actualiser les changements"});
 		});
 
 		user.socket.on("refreshUsersMinejsApp",function(){
