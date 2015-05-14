@@ -22,11 +22,13 @@ function init(){
 
 	log.info("Chargement de la configuration")
 	loadConfig();
-	ApplicationManager.init();
 	BroadcastManager.init();
 
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();
+
+	log.info("Initialisation des applications");
+	ApplicationManager.init();
 
 	log.info("Démarrage du serveur web");
 	//Dossier des fichiers stiques (JS/CSS/IMG)
