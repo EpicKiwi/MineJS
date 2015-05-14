@@ -18,6 +18,7 @@ var emitter = new events.EventEmitter();	//Emetteur d'evenement du serveur
 var lastCommand = null;						//Derniere commande envoyée au serveur
 var onlinePlayers = [];						//Joueurs en ligne
 var config = {};							//Configuration global du serveur(server.properties)
+var logMatches = []							//Les ecouteurs de log personnalisés
 
 function getAbsolutePath()
 {
@@ -160,6 +161,16 @@ function eventDispatcher(){
 			log.info("Minecraft : Deconnexion de "+playerName);
 			onlinePlayers.splice(onlinePlayers.indexOf(playerName),1);
 			emitter.emit("playerDisconnect",playerName);
+		}
+	});
+
+	emitter.on("log",function(message){
+		for(var i =0;i<logMatches.length;i++)
+		{
+			if(message.search(logMatches[i].match) != -1)
+			{
+				logMatches[i].callback(message);
+			}
 		}
 	});
 }
@@ -313,6 +324,25 @@ function saveConfig(){
 
 }
 
+function addLogMatch(reg,callback)
+{
+	var match = {match:reg,callback:callback};
+	logMatches.push(match);
+	return logMatches.indexOf(match);
+}
+
+function removeLogMatch(id)
+{
+	if(logMatches[id])
+	{
+    	array.splice(id, 1);
+	}
+	else
+	{
+		log.error("Le logMatch d'id "+id+" n'existe pas");
+	}
+}
+
 exports.getPath = getAbsolutePath;
 exports.init = init;
 exports.run = run;
@@ -325,6 +355,8 @@ exports.install = install;
 exports.update = update;
 exports.loadConfig = loadConfig;
 exports.saveConfig = saveConfig;
+exports.addLogMatch = addLogMatch;
+exports.removeLogMatch = removeLogMatch;
 
 exports.getVersion = function(){
 	return version;
