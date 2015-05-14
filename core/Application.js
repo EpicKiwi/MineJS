@@ -1,24 +1,14 @@
 function setApplication(pObj, pParams){
     pParams = pParams || {};
     
-    if(!pParams.name || !pParams.init || !pParams.onUserOpen || !pParams.onUserClose || !pParams.id){ 
+    if(!pParams.name || !pParams.init || !pParams.id){ 
         return false;
-    }
-    
-    if(pParams.needLogin == undefined)
-    {
-        pParams.needLogin = true;
     }
 
     pObj.id = pParams.id;
     pObj.name = pParams.name;               
     pObj.description = pParams.description;
     pObj.init = pParams.init;
-    pObj.onUserOpen = pParams.onUserOpen;
-    pObj.onUserClose  = pParams.onUserClose;
-    pObj.script     = pParams.script;
-    pObj.custom     = pParams.custom;
-    pObj.needLogin = pParams.needLogin;
     
     return true;
 }
@@ -35,12 +25,22 @@ function ApplicationGui(pParams){
     {
         pParams.showIcon = true;
     }
+    
+    if(pParams.needLogin == undefined)
+    {
+        pParams.needLogin = true;
+    }
 
     this.icon       = pParams.icon || "default"; 
     this.css        = pParams.css;
     this.html       = pParams.html;
     this.style      = pParams.style || {primaryColor: "#005AFF"};
-    this.showIcon   = pParams.showIcon
+    this.showIcon   = pParams.showIcon;
+    this.onUserOpen = pParams.onUserOpen;
+    this.onUserClose  = pParams.onUserClose;
+    this.script     = pParams.script;
+    this.custom     = pParams.custom;
+    this.needLogin = pParams.needLogin;
     this.getInfos = function(){
         return {
            id           : this.id,
