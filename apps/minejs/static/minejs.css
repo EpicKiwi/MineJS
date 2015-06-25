@@ -47,3 +47,56 @@
 	color: #D3405F;
 	font-size: 25px;
 }
+
+#app-minejs .appList
+{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#app-minejs .appIcon
+{
+	padding: 5px;
+	width: 100px;
+	height: 100px;
+	margin: 10px;
+	transition: 0.5s all;
+	border: solid white 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#app-minejs .appIcon img
+{
+	width: 70px;
+}
+
+#app-minejs .appIcon.type-gui
+{
+	background-color: #61A4FF;
+	border: solid #61A4FF 5px;
+}
+
+#app-minejs .appIcon.type-back
+{
+	background-color: #FF9600;
+	border: solid #FF9600 5px;
+	line-height: 100px;
+}
+
+#app-minejs .appIcon p
+{
+	text-align: center;
+	font-weight: bold;
+}
+
+#app-minejs .appIcon:hover
+{
+	color: white;
+	background-color: {{application.style.primaryColor}} !important;
+	border-color: {{application.style.primaryColor}};
+}

@@ -138,5 +138,6 @@ exports.init = init;
 exports.open = openApp;
 exports.close = closeApp;
 exports.getAppsAvaliable = function(){
+	console.log(appsAvaliable);
 	return appsAvaliable;
 }

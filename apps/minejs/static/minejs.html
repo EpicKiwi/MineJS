@@ -1,6 +1,10 @@
 <div class="app-container" ng-controller="minejsAppController">
 <nav class="side-tab-menu">
 
+	<div id="tab-1-title" class="tab-title" ng-click="tab = 4" ng-class="{active: tab == 4}">
+		Applications
+	</div>
+
 	<div id="tab-1-title" class="tab-title" ng-click="tab = 1" ng-class="{active: tab == 1}">
 		Utilisateurs
 	</div>
@@ -21,6 +25,23 @@
 
 </nav>
 <section class="tab-content">
+
+	<div id="tab-1" ng-show="tab == 4" class="tab" ng-controller="appsMinejsAppController">
+		<div class="content">
+			<h2>Applications</h2>
+			<p>Administrez les applications de MineJS</p>
+			<div class="appList">
+				<div class="appIcon type-{{app.type}}" style="background-color:{{app.style.primaryColor}}" ng-repeat="app in apps">
+					<img ng-if="app.type == 'gui'" src="{{getIconPath(app.icon,app.id)}}" alt="icone {{app.name}}"/>
+					<p>{{app.name}}</p>
+				</div>
+				<div class="appIcon" style="background-color:{{application.style.primaryColor}}">
+					<img src="/app/minejs/plus.svg" alt="icone plus"/>
+					<p>Ajouter</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div id="tab-1" ng-show="tab == 1" class="tab" ng-controller="usersMinejsAppController">
 		<div class="content">

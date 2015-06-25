@@ -1,6 +1,7 @@
 var log = require(__dirname+"/../../core/Logger");
 var Application = require(__dirname+"/../../core/Application");
 var MineJS = require(__dirname+"/../../core/MineJS");
+var ApplicationManager = require(__dirname+"/../../core/ApplicationManager");
 var UsersManager = require(__dirname+"/../../core/UsersManager");
 var User = require(__dirname+"/../../core/User");
 
@@ -71,6 +72,10 @@ var config = new Application.gui({
 		user.socket.on("refreshUsersMinejsApp",function(){
 			var users = UsersManager.getUsers();
 			user.socket.emit("refreshUsersMinejsApp",users);
+		});
+
+		user.socket.on("refreshAppsMinejsApp",function(){
+			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable())
 		});
 	},
 

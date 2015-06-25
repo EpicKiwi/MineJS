@@ -1,5 +1,5 @@
 app.controllerProvider.register("minejsAppController",function($scope,socket,userFactory){
-	$scope.tab = 1;
+	$scope.tab = 3;
 });
 
 app.controllerProvider.register("usersMinejsAppController",function($scope,socket){
@@ -71,3 +71,11 @@ app.controllerProvider.register("configMinejsAppController",function($scope,sock
 		});
 	};
 });
+
+app.controllerProvider.register("appsMinejsAppController",function($scope,socket){
+	socket.emit("refreshAppsMinejsApp");
+	socket.on("refreshAppsMinejsApp",function(apps){
+		$scope.apps = apps;
+		console.log($scope.apps);
+	})
+})
