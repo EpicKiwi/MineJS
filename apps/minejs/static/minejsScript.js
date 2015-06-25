@@ -73,9 +73,25 @@ app.controllerProvider.register("configMinejsAppController",function($scope,sock
 });
 
 app.controllerProvider.register("appsMinejsAppController",function($scope,socket){
+
+	$scope.utab = 0;
+	$scope.selectedApp = null;
+	$scope.showAddApp = false;
+
+	$scope.goDetails = function(app)
+	{
+		$scope.selectedApp = app;
+		$scope.showAddApp = false;
+	}
+
+	$scope.addApp = function(){
+		$scope.selectedApp = null;
+		$scope.showAddApp = true;
+	}
+
 	socket.emit("refreshAppsMinejsApp");
 	socket.on("refreshAppsMinejsApp",function(apps){
 		$scope.apps = apps;
 		console.log($scope.apps);
 	})
-})
+});

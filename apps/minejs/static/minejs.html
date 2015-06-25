@@ -26,21 +26,39 @@
 </nav>
 <section class="tab-content">
 
-	<div id="tab-1" ng-show="tab == 4" class="tab" ng-controller="appsMinejsAppController">
+	<div id="tab-4" ng-show="tab == 4" class="tab" ng-controller="appsMinejsAppController">
 		<div class="content">
 			<h2>Applications</h2>
 			<p>Administrez les applications de MineJS</p>
 			<div class="appList">
-				<div class="appIcon type-{{app.type}}" style="background-color:{{app.style.primaryColor}}" ng-repeat="app in apps">
+				<div class="appIcon type-{{app.type}}" ng-click="goDetails(app)" style="background-color:{{app.style.primaryColor}}" ng-repeat="app in apps">
 					<img ng-if="app.type == 'gui'" src="{{getIconPath(app.icon,app.id)}}" alt="icone {{app.name}}"/>
 					<p>{{app.name}}</p>
 				</div>
-				<div class="appIcon" style="background-color:{{application.style.primaryColor}}">
+				<div class="appIcon" ng-click="addApp()" style="background-color:{{application.style.primaryColor}}">
 					<img src="/app/minejs/plus.svg" alt="icone plus"/>
-					<p>Ajouter</p>
+					<p>Installer</p>
 				</div>
 			</div>
-		</div>
+			<div ng-show="selectedApp != null">
+				<h2>{{selectedApp.name}}</h2>
+				<p>id : {{selectedApp.id}}</p>
+				<p>{{selectedApp.description}}</p>
+				<p>Type : <span ng-show="selectedApp.type == 'back'">BackApp</span><span ng-show="selectedApp.type == 'gui'">GuiApp</span></p>
+				<p>Accessible sans connexion : <span ng-show="selectedApp.needLogin">Non</span><span ng-hide="selectedApp.needLogin">Oui</span></p>
+				<div class="button button-danger">Supprimer</div>
+			</div>
+			<div ng-show="showAddApp">
+				<h2>Ajouter</h2>
+				<p>Ajouter une nouvelle application</p>
+				<p>Selectionnez le fichier ZIP de votre application puis cliquez sur <strong>Installer</strong></p>
+				<div class="inputFile">
+					<input type="file"/>
+					<P>Selectionnez l'archive de l'application</P>
+				</div>
+				<div class="button button-primary">Installer</div>
+			</div>
+		</div>	
 	</div>
 
 	<div id="tab-1" ng-show="tab == 1" class="tab" ng-controller="usersMinejsAppController">
