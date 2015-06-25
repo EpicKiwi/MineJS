@@ -1,4 +1,4 @@
-var app = angular.module("MineJS",["btford.socket-io"]);
+var app = angular.module("MineJS",["btford.socket-io","flow"]);
 
 //Permet l'importation de controlleurs
 app.config(function($controllerProvider, $compileProvider)

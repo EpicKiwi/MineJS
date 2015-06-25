@@ -52,11 +52,17 @@
 				<h2>Ajouter</h2>
 				<p>Ajouter une nouvelle application</p>
 				<p>Selectionnez le fichier ZIP de votre application puis cliquez sur <strong>Installer</strong></p>
-				<div class="inputFile">
-					<input type="file"/>
-					<P>Selectionnez l'archive de l'application</P>
+				<div flow-init class="inputFile">
+				<div class="button button-primary" flow-btn>Installer</div>
+					<P ng-show="$flow.files.length == 0">Selectionnez l'archive de l'application</P>
+					<div>
+						<div ng-repeat="file in $flow.files">
+							<p>{{file.name}}</p>
+							<p>{{file.msg}}</p>
+						</div>
+					</div>
+					<P ng-show="$flow.files.length > 1">Vous ne devez selectionner qu'un fichier</P>
 				</div>
-				<div class="button button-primary">Installer</div>
 			</div>
 		</div>	
 	</div>
