@@ -8,7 +8,12 @@ var appsAvaliable = [];
 
 function init(){
 
-	searchApps();
+	appsFiles = searchApps();
+
+	for(var i = 0; i<appsFiles.length; i++)
+	{
+		addApp(appsFiles[i]);
+	}
 
 	for(var app in appsAvaliable)
 	{
@@ -35,10 +40,7 @@ function searchApps(){
 		return false;
 	}
 
-	for(var i = 0; i<appsFiles.length; i++)
-	{
-		addApp(appsFiles[i]);
-	}
+	return appsFiles;
 
 };
 
@@ -134,9 +136,39 @@ function closeApp(user)
 	}
 }
 
+function removeApp(id)
+{
+	try
+	{
+		fs.unlinkSync(__dirname+"/../apps/"+id);
+	}
+	catch(e)
+	{
+		if(e.code == "ENOENT")
+		{
+			log.error("Le dossier d'applications n'existe pas");
+		}
+		else
+		{
+			console.trace(e)
+		}
+		return false;
+	}
+
+	for(var i; i<appsAvaliable.length; i++)
+	{
+		if(appsAvaliable[i].id == id)
+		{
+			appsAvaliable.splice(i,1);
+		}
+	}
+}
+
 exports.init = init;
 exports.open = openApp;
 exports.close = closeApp;
+exports.add = addApp;
+exports.remove = removeApp;
 exports.getAppsAvaliable = function(){
 	console.log(appsAvaliable);
 	return appsAvaliable;
