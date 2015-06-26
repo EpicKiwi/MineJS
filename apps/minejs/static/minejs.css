@@ -100,20 +100,3 @@
 	background-color: {{application.style.primaryColor}} !important;
 	border-color: {{application.style.primaryColor}};
 }
-
-#app-minejs .inputFile
-{
-	width: 300px;
-	margin: 10px;
-	margin-bottom: 20px;
-	padding: 10px;
-	background-color: #E5E5E5;
-	text-align: center;
-	line-height: 50px;
-	color: {{application.style.primaryColor}};
-}
-
-#app-minejs .inputFile p
-{
-	text-align: center;
-}
