@@ -75,7 +75,13 @@ var config = new Application.gui({
 		});
 
 		user.socket.on("refreshAppsMinejsApp",function(){
-			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable())
+			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable());
+		});
+
+		user.socket.on("removeAppMinejsApp",function(app){
+			ApplicationManager.remove(app.id);
+			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable());
+			MineJS.getIo().emit("avaliableApps",ApplicationManager.getAppsAvaliable());
 		});
 	},
 

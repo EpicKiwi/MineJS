@@ -136,11 +136,25 @@ function closeApp(user)
 	}
 }
 
+function remdirRecursiveSync(path) {
+  if( fs.existsSync(path) ) {
+      fs.readdirSync(path).forEach(function(file,index) {
+        var curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) {
+              remdirRecursiveSync(curPath);
+          } else {
+              fs.unlinkSync(curPath);
+          }
+      });
+      fs.rmdirSync(path);
+    }
+};
+
 function removeApp(id)
 {
 	try
 	{
-		fs.unlinkSync(__dirname+"/../apps/"+id);
+		remdirRecursiveSync(__dirname+"/../apps/"+id);
 	}
 	catch(e)
 	{
@@ -155,12 +169,11 @@ function removeApp(id)
 		return false;
 	}
 
-	for(var i; i<appsAvaliable.length; i++)
+	appsAvaliable = [];
+	appsFiles = searchApps();
+	for(var i = 0; i<appsFiles.length; i++)
 	{
-		if(appsAvaliable[i].id == id)
-		{
-			appsAvaliable.splice(i,1);
-		}
+		addApp(appsFiles[i]);
 	}
 }
 
@@ -170,6 +183,5 @@ exports.close = closeApp;
 exports.add = addApp;
 exports.remove = removeApp;
 exports.getAppsAvaliable = function(){
-	console.log(appsAvaliable);
 	return appsAvaliable;
 }

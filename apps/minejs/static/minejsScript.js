@@ -74,6 +74,7 @@ app.controllerProvider.register("configMinejsAppController",function($scope,sock
 
 app.controllerProvider.register("appsMinejsAppController",function($scope,socket){
 
+	socket.emit("refreshAppsMinejsApp");
 	$scope.utab = 0;
 	$scope.selectedApp = null;
 	$scope.showAddApp = false;
@@ -89,7 +90,14 @@ app.controllerProvider.register("appsMinejsAppController",function($scope,socket
 		$scope.showAddApp = true;
 	}
 
-	socket.emit("refreshAppsMinejsApp");
+	$scope.removeApp = function(app){
+		if($scope.removeConfirm == "supprimer")
+		{
+			$scope.selectedApp = null;
+			socket.emit("removeAppMinejsApp",app);
+		}
+	}
+
 	socket.on("refreshAppsMinejsApp",function(apps){
 		$scope.apps = apps;
 		console.log($scope.apps);
