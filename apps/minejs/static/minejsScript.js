@@ -83,6 +83,7 @@ app.controllerProvider.register("appsMinejsAppController",function($scope,socket
 	{
 		$scope.selectedApp = app;
 		$scope.showAddApp = false;
+		$scope.removeq = false;
 	}
 
 	$scope.addApp = function(){

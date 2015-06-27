@@ -100,3 +100,13 @@
 	background-color: {{application.style.primaryColor}} !important;
 	border-color: {{application.style.primaryColor}};
 }
+
+.center-cel
+{
+	text-align: center;
+}
+
+.only-input
+{
+	border-radius: 10px !important;
+}

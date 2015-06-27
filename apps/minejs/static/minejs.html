@@ -35,27 +35,27 @@
 					<img ng-if="app.type == 'gui'" src="{{getIconPath(app.icon,app.id)}}" alt="icone {{app.name}}"/>
 					<p>{{app.name}}</p>
 				</div>
-				<div class="appIcon" ng-click="addApp()" style="background-color:{{application.style.primaryColor}}">
+				<!--<div class="appIcon" ng-click="addApp()" style="background-color:{{application.style.primaryColor}}">
 					<img src="/app/minejs/plus.svg" alt="icone plus"/>
 					<p>Installer</p>
-				</div>
+				</div>-->
 			</div>
 			<div ng-show="selectedApp != null">
-				<h2>{{selectedApp.name}} (Travail en cours)</h2>
+				<h2>{{selectedApp.name}}</h2>
 				<p>id : {{selectedApp.id}}</p>
 				<p>{{selectedApp.description}}</p>
 				<p>Type : <span ng-show="selectedApp.type == 'back'">BackApp</span><span ng-show="selectedApp.type == 'gui'">GuiApp</span></p>
 				<p>Accessible sans connexion : <span ng-show="selectedApp.needLogin">Non</span><span ng-hide="selectedApp.needLogin">Oui</span></p>
-				<div class="button button-danger" ng-hide="removeq" ng-click="removeq = true">Supprimer</div>
+				<div class="button button-primary" ng-click="downloadApp(selectedApp)">Télécharger</div><div class="button button-danger" ng-click="removeq = true">Supprimer</div>
 				<form ng-show="removeq" ng-submit="removeApp(selectedApp)">
 					<table class="formTable">
-						<tr><td colspan="2">Entrez "supprimer" dans le champ pour supprimer définitivement cette application</td></tr>
-						<tr><td><input type="text" ng-model="removeConfirm" placeholder="supprimer" /></td><td><input type="submit" class="button button-danger" value="Supprimer définitivement"/></td></tr>
+						<tr><td>Entrez "supprimer" pour confirmer</td><td><input class="only-input" type="text" ng-model="removeConfirm" placeholder="supprimer" /></td></tr>
+						<tr><td colspan="2" class="center-cel"><input type="submit" class="button button-danger" value="Supprimer définitivement"/></td></tr>
 					</table>
 				</form>
 			</div>
 			<div ng-show="showAddApp">
-				<h2>Ajouter (non implémenté)</h2>
+				<h2>Ajouter</h2>
 				<p>Ajouter une nouvelle application</p>
 				<p>Selectionnez le fichier ZIP de votre application puis cliquez sur <strong>Installer</strong></p>
 				<div class="inputFile">
