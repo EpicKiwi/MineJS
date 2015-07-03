@@ -72,12 +72,20 @@ app.controllerProvider.register("configMinejsAppController",function($scope,sock
 	};
 });
 
-app.controllerProvider.register("appsMinejsAppController",function($scope,socket){
+app.controllerProvider.register("appsMinejsAppController",function($scope,socket,FileUploader){
 
 	socket.emit("refreshAppsMinejsApp");
 	$scope.utab = 0;
 	$scope.selectedApp = null;
 	$scope.showAddApp = false;
+	$scope.uploader = new FileUploader();
+	$scope.uploader.queueLimit = 1;
+	$scope.uploader.removeAfterUpload = true;
+	$scope.uploader.url="/upload"
+
+	$scope.uploadZip = function(){
+		$scope.uploader.uploadAll();
+	}
 
 	$scope.goDetails = function(app)
 	{
