@@ -46,7 +46,7 @@
 				<p>{{selectedApp.description}}</p>
 				<p>Type : <span ng-show="selectedApp.type == 'back'">BackApp</span><span ng-show="selectedApp.type == 'gui'">GuiApp</span></p>
 				<p>Accessible sans connexion : <span ng-show="selectedApp.needLogin">Non</span><span ng-hide="selectedApp.needLogin">Oui</span></p>
-				<div class="button button-primary" ng-click="downloadApp(selectedApp)">Télécharger</div><div class="button button-danger" ng-click="removeq = true">Supprimer</div>
+				<div class="button button-danger" ng-click="removeq = true">Supprimer</div>
 				<form ng-show="removeq" ng-submit="removeApp(selectedApp)">
 					<table class="formTable">
 						<tr><td>Entrez "supprimer" pour confirmer</td><td><input class="only-input" type="text" ng-model="removeConfirm" placeholder="supprimer" /></td></tr>
