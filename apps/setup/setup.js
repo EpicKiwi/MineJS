@@ -57,6 +57,7 @@ var setup = new Application.gui({
 			config.serverType = ServersManager.getTypeById(typeId)
 			MineJS.setConfig(config);
 			MineJS.saveConfig();
+			MinecraftServer.setType(ServersManager.getTypeById(typeId));
 			MinecraftServer.install(function(){
 				user.socket.emit("gameServerConfigSetupApp",MinecraftServer.getConfig());
 				SetupManager.getChecklist().gameServer = true;

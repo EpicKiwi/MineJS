@@ -4,8 +4,9 @@ var events = require('events');
 
 var MineJS = require("./MineJS");
 var log = require("./Logger");
-var VersionsManager = require('./MinecraftVersionManager');
+var DownloadManager = require('./MinecraftDownloadManager');
 var SetupManager = require("./SetupManager");
+var ServersManager = require("./ServersManager");
 
 var folder = "";							//Dossier contenant le serveur
 var executable = null;						//Executable du serveur
@@ -28,16 +29,15 @@ function getAbsolutePath()
 
 function init()
 {
-	VersionsManager.loadAvaliableVersions(function(){
 		folder = MineJS.getConfig().gameServerFolder;
 		loadConfig();
 		searchExecutable();
 		eventDispatcher();
+		type = ServersManager.getTypeById(MineJS.getConfig().serverType);
 		if(MineJS.getConfig().gameServerAutoStart)
 		{
 			run();
 		}
-	});
 }
 
 function searchExecutable()
@@ -79,7 +79,7 @@ function run()
 	state = 1;
 	emitter.emit("load");
 	running = true;
-	process = cp.spawn("java",["-Xmx"+ram+"M","-Xms"+ram+"M","-jar",executable,"nogui"],{cwd:getAbsolutePath()});
+	process = cp.spawn("java",["-Xmx"+ram+"M","-Xms"+ram+"M","-jar",type.executable,"nogui"],{cwd:getAbsolutePath()});
 	process.stdout.setEncoding("UTF-8");
 
 	var line = "";
@@ -177,14 +177,7 @@ function eventDispatcher(){
 }
 
 function isOutdated(){
-	if(VersionsManager.getLatest().release == version)
-	{
 		return false;
-	}
-	else
-	{
-		return true;
-	}
 }
 
 function setEula(state){
@@ -225,15 +218,17 @@ function toggle(){
 
 function install(callback){
 	SetupManager.checkFolder(getAbsolutePath());
+	var confType = ServersManager.getTypeById(MineJS.getConfig().serverType);
+
 	if(MineJS.getConfig().gameServerAcceptEula)
 	{
 		log.info("Minecraft : EULA Automatiquement acceptée");
 		setEula(true);
 	}
-	VersionsManager.downloadLatest(getAbsolutePath(),function(){
+
+	DownloadManager.download(type,getAbsolutePath(),function(){
 		if(MineJS.getConfig().gameServerAcceptEula)
 		{
-			searchExecutable();
 			log.info("Minecraft : Génération de la configuration");
 			generateConfig(function(){
 				log.info("Minecraft : serveur opérationnel");
@@ -249,18 +244,7 @@ function install(callback){
 function update(){
 	if(isOutdated())
 	{
-		VersionsManager.downloadLatest(getAbsolutePath(),function(){
-			try
-			{
-				fs.unlinkSync(getAbsolutePath()+"/"+executable);
-			}
-			catch(e)
-			{
-				console.trace(e);
-			}
-			searchExecutable();
-			log.info("Minecraft : Serveur mis a jour");
-		});
+			log.info("Minecraft : Non implémenté");
 	}
 	else
 	{
@@ -389,4 +373,12 @@ exports.setConfig = function(value){
 
 exports.getState = function(){
 	return state;
+}
+
+exports.getType = function(){
+	return type;
+}
+
+exports.setType = function(value){
+	type = value;
 }

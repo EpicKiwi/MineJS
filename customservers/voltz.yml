@@ -4,4 +4,5 @@ name: Voltz
 version: 2.0.4
 download: http://servers.technicpack.net/Technic/servers/voltz/Voltz_Server_v2.0.4.zip
 downloadType: application/zip
+downloadProtocol: http
 executable: Voltz.jar

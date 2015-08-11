@@ -3,3 +3,4 @@ gameServerFolder	: "minecraft-server"
 gameServerAutoStart	: false
 gameServerAcceptEula: true
 uploadTempFolder    : "core/tmp"
+serverType: vanilla.1.8.8

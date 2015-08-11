@@ -13,6 +13,7 @@ function init()
 
 function refreshTypes()
 {
+  serverTypes = [];
   SetupManager.checkFolder(__dirname+"/../customservers");
 
   try
@@ -53,6 +54,7 @@ function getTypeById(id)
 
 exports.init = init;
 exports.refresh = refreshTypes;
+exports.getTypeById = getTypeById;
 
 exports.getTypes = function(){
   return serverTypes;

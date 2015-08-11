@@ -4,4 +4,5 @@ name: Vanilla 1.8.8
 version: 1.8.8
 download: https://s3.amazonaws.com/Minecraft.Download/versions/1.8.8/minecraft_server.1.8.8.jar
 downloadType: application/java-archive
+downloadProtocol: https
 executable: minecraft_server.1.8.8.jar
