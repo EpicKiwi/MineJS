@@ -57,13 +57,28 @@
 			<div ng-show="showAddApp">
 				<h2>Ajouter</h2>
 				<p>Ajouter une nouvelle application</p>
-				<p>Selectionnez le fichier ZIP de votre application puis cliquez sur <strong>Installer</strong></p>
+				<p>Selectionnez l'archive' de votre application puis cliquez sur <strong>Installer</strong></p>
 				<div class="inputFile">
-					<input type="file" ng-hide="uploader.isUploading" nv-file-select uploader="uploader"/>
-					<p ng-show="uploader.isUploading">Upload : <span ng-repeat="item in uploader.queue">{{item.file.name}}</span></p>
-					<p ng-hide="uploader.isUploading">Selectionnez l'archive de l'application</p>
-					<p ng-show="uploader.isUploading">{{uploader.progress}}%</p>
-					<div class="button button-primary" ng-click="uploadZip()">Installer</div>
+					<span ng-show="install == 0">
+						<input type="file" ng-hide="uploader.isUploading" nv-file-select uploader="uploader"/>
+						<p ng-show="uploader.isUploading">Upload : <span ng-repeat="item in uploader.queue">{{item.file.name}}</span></p>
+						<p ng-hide="uploader.isUploading">Selectionnez l'archive de l'application</p>
+						<p ng-show="isZip()"><strong>L'archive doit etre compressée en ZIP</strong></p>
+						<p ng-show="uploader.isUploading">{{uploader.progress}}%</p>
+						<div class="button button-primary" ng-hide="isZip()" ng-click="uploadZip()">Installer</div>
+					</span>
+					<span ng-show="install == 1">
+						<p><strong>Installation ...</strong></p>
+						<p>{{appFile}}</p>
+					</span>
+					<span ng-show="install == 2">
+						<p><strong>Application installée ...</strong></p>
+						<div class="button" ng-click="install = 0">En installer une autre</div>
+					</span>
+					<span ng-show="install == 3">
+						<p><strong>Erreur lors de l'installation</strong></p>
+						<div class="button" ng-click="install = 0">Reesayer</div>
+					</span>
 				</div>
 			</div>
 		</div>	

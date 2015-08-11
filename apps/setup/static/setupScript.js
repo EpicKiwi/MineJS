@@ -47,10 +47,18 @@ app.controllerProvider.register("configMineJSSetupAppController",function($scope
 
 app.controllerProvider.register("installServerSetupAppController",function($scope,socket){
 
+	$scope.serverTypes = $scope.application.custom.serverTypes;
+	$scope.selectedType = $scope.serverTypes[0];
+
+	$scope.selectType = function(type)
+	{
+		$scope.selectedType = type;
+	}
+
 	$scope.installServer = function(){
 		$scope.loading.state = true;
 		$scope.loading.message = "Nous installons votre serveur. Prenez un café ;-)"
-		socket.emit("installServerSetupApp");
+		socket.emit("installServerSetupApp",$scope.selectedType.id);
 		socket.once("installServerSetupApp",function(result){
 			if(result.success)
 			{

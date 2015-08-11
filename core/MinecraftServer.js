@@ -19,6 +19,7 @@ var lastCommand = null;						//Derniere commande envoyée au serveur
 var onlinePlayers = [];						//Joueurs en ligne
 var config = {};							//Configuration global du serveur(server.properties)
 var logMatches = []							//Les ecouteurs de log personnalisés
+var type = null;
 
 function getAbsolutePath()
 {

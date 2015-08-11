@@ -72,18 +72,37 @@ app.controllerProvider.register("configMinejsAppController",function($scope,sock
 	};
 });
 
-app.controllerProvider.register("appsMinejsAppController",function($scope,socket,FileUploader){
+app.controllerProvider.register("appsMinejsAppController",function($scope,socket,FileUploader,userFactory){
+
+	console.log(userFactory);
 
 	socket.emit("refreshAppsMinejsApp");
 	$scope.utab = 0;
 	$scope.selectedApp = null;
 	$scope.showAddApp = false;
+	$scope.install = 0;
+	$scope.appFile = "";
 	$scope.uploader = new FileUploader();
 	$scope.uploader.queueLimit = 1;
 	$scope.uploader.removeAfterUpload = true;
-	$scope.uploader.url="/upload"
+	$scope.uploader.url="/upload/"+userFactory.infos.username;
+	$scope.uploader.filters.push({
+		name: "zipRestrict",
+		fn: function(item)
+		{
+			if(item.type == "application/zip"|item.type == "application/x-zip-compressed"|item.type == "application/x-zip")
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	});
 
 	$scope.uploadZip = function(){
+		socket.emit("addAppMinejsApp");
 		$scope.uploader.uploadAll();
 	}
 
@@ -106,6 +125,33 @@ app.controllerProvider.register("appsMinejsAppController",function($scope,socket
 			socket.emit("removeAppMinejsApp",app);
 		}
 	}
+
+	$scope.isZip = function(){
+		for(item in $scope.uploader.queue)
+		{
+			if(!(item.type == "application/zip"|item.type == "application/x-zip-compressed"|item.type == "application/x-zip"))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	socket.on("installingAppMinejsApp",function(file){
+		$scope.appFile = file;
+		$scope.install = 1
+	});
+
+	socket.on("installedAppMinejsApp",function(data){
+		if(data.success)
+		{
+			$scope.install = 2;
+		}
+		else
+		{
+			$scope.install = 3;
+		}
+	});
 
 	socket.on("refreshAppsMinejsApp",function(apps){
 		$scope.apps = apps;

@@ -15,11 +15,6 @@ function init(){
 		addApp(appsFiles[i]);
 	}
 
-	for(var app in appsAvaliable)
-	{
-		appsAvaliable[app].init();
-	}
-
 };
 
 function searchApps(){
@@ -44,6 +39,26 @@ function searchApps(){
 
 };
 
+function refreshApps(){
+	appsFiles = searchApps();
+	for(var i = 0; i<appsFiles.length; i++)
+	{
+		var finded = false;
+		for(var j = 0; j<appsAvaliable.length; j++)
+		{
+			if(appsAvaliable[j].id == appsFiles[i])
+			{
+				finded = true;
+			}
+		}
+		if(!finded)
+		{
+			log.log("Nouvelle app : "+appsFiles[i]);
+			addApp(appsFiles[i]);
+		}
+	}
+}
+
 function addApp(id){
 	try
 	{
@@ -54,6 +69,10 @@ function addApp(id){
 		if(e.code == "ENOENT")
 		{
 			log.error("Le dossier de l'application "+id+" n'existe pas");
+		}
+		else if(e.code == "ENOTDIR")
+		{
+			log.error("Le fichier "+id+" n'est pas un dossier");
 		}
 		else
 		{
@@ -73,6 +92,7 @@ function addApp(id){
 	{
 		appsAvaliable.push(app);
 		MineJS.getExpress().use("/app/"+id,express.static(__dirname+"/../apps/"+id+"/static"));
+		appsAvaliable[appsAvaliable.indexOf(app)].init()
 	}
 	else
 	{
@@ -182,6 +202,8 @@ exports.open = openApp;
 exports.close = closeApp;
 exports.add = addApp;
 exports.remove = removeApp;
+exports.searchApps = searchApps;
+exports.refreshApps = refreshApps;
 exports.getAppsAvaliable = function(){
 	return appsAvaliable;
 }

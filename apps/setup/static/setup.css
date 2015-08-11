@@ -76,6 +76,23 @@
 	border: none;
 }
 
+#app-setup .extendField
+{
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	outline: 0;
+	transition: all 0.5s;
+	border: none;
+	font-size: inherit;
+	color: inherit;
+}
+
+#app-setup .row:hover .extendField
+{
+	color: white;
+}
+
 @media screen and (max-width: 1150px)
 {
 	#app-setup #tab-1 .content, #app-setup #tab-6 .content

@@ -17,7 +17,12 @@ function loadAvaliableVersions(callback)
 		});
 
 		response.on("end",function(){
-			data = JSON.parse(data);
+			try {
+				data = JSON.parse(data);
+			} catch (e) {
+				log.error("Impossible de recupèrer les versions de minecraft : "+e)
+				return false;
+			}
 			latest = data.latest;
 
 			for(var i = 0;i<data.versions.length; i++)
@@ -53,7 +58,7 @@ function download(version,path,callback)
 
 		if(response.statusCode == 200)
 		{
-			response.pipe(fileStream);	
+			response.pipe(fileStream);
 		}
 		else
 		{

@@ -75,11 +75,12 @@
 		<h2>Version du serveur</h2>
 		<p>Séléctionnez la version du serveur minecraft que vous desirez. Seul le serveur vanilla est disponible pour le momment</p>
 		<div class="big-selector">
-			<div class="row active">Vanilla</div>
+			<div class="row"><input type="text" class="extendField" ng-model="searchType" placeholder="Recherche"/></div>
+			<div class="row" ng-repeat="type in serverTypes | filter:searchType" ng-class="{active:selectedType == type}" ng-click="selectType(type)">{{type.name}}</div>
 		</div>
 		<p>Des que vous avez séléctionné votre version cliquez sur <strong>Installer le serveur</strong> pour télécharger le serveur correspondant et générer sa configuration par défaut</p>
 	</div>
-	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="installServer()">Installer le serveur</div></nav>
+	<nav class="tab-bottom-menu"><div class="button button-primary" ng-click="installServer()">Installer {{selectedType.name}}</div></nav>
 	</div>
 	<div id="tab-5" ng-show="tab == 5" class="tab" ng-controller="gameServerConfigSetupAppController" >
 	<div class="content">

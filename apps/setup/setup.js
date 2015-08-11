@@ -5,6 +5,7 @@ var MineJS = require(__dirname+"/../../core/MineJS");
 var MinecraftServer = require(__dirname+"/../../core/MinecraftServer");
 var SetupManager = require(__dirname+"/../../core/SetupManager");
 var ApplicationManager = require(__dirname+"/../../core/ApplicationManager");
+var ServersManager = Application.get("ServersManager");
 
 var setup = new Application.gui({
 	id: 			"setup",
@@ -31,6 +32,7 @@ var setup = new Application.gui({
 			return false;
 		}
 		this.custom.config = MineJS.getConfig();
+		this.custom.serverTypes = ServersManager.getTypes();
 		this.custom.gameServerConfig = MinecraftServer.getConfig();
 
 		user.socket.on("createAdminSetupApp",function(infos){
@@ -50,7 +52,11 @@ var setup = new Application.gui({
 			user.socket.emit("saveConfigSetupApp",{success:true});
 		});
 
-		user.socket.on("installServerSetupApp",function(){
+		user.socket.on("installServerSetupApp",function(typeId){
+			var config = MineJS.getConfig();
+			config.serverType = ServersManager.getTypeById(typeId)
+			MineJS.setConfig(config);
+			MineJS.saveConfig();
 			MinecraftServer.install(function(){
 				user.socket.emit("gameServerConfigSetupApp",MinecraftServer.getConfig());
 				SetupManager.getChecklist().gameServer = true;
