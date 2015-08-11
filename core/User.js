@@ -65,7 +65,7 @@ module.exports = function(socket){
 			if(this.trusted)
 			{
 				log.info(this.username+" c'est connecté");
-				this.socket.emit("login",{success: true,infos: this.getInfos()});
+				this.socket.emit("login",{success: true,user: this.getInfos()});
 				this.socket.emit("avaliableApps",ApplicationManager.getAppsAvaliable());
 				setTimeout(function(){
 					this.socket.emit("notif",{type:"check",message:"Bienvenue "+infos.username})

@@ -8,11 +8,11 @@ var appsAvaliable = [];
 
 function init(){
 
-	searchApps();
+	appsFiles = searchApps();
 
-	for(var app in appsAvaliable)
+	for(var i = 0; i<appsFiles.length; i++)
 	{
-		appsAvaliable[app].init();
+		addApp(appsFiles[i]);
 	}
 
 };
@@ -35,12 +35,29 @@ function searchApps(){
 		return false;
 	}
 
-	for(var i = 0; i<appsFiles.length; i++)
-	{
-		addApp(appsFiles[i]);
-	}
+	return appsFiles;
 
 };
+
+function refreshApps(){
+	appsFiles = searchApps();
+	for(var i = 0; i<appsFiles.length; i++)
+	{
+		var finded = false;
+		for(var j = 0; j<appsAvaliable.length; j++)
+		{
+			if(appsAvaliable[j].id == appsFiles[i])
+			{
+				finded = true;
+			}
+		}
+		if(!finded)
+		{
+			log.log("Nouvelle app : "+appsFiles[i]);
+			addApp(appsFiles[i]);
+		}
+	}
+}
 
 function addApp(id){
 	try
@@ -52,6 +69,10 @@ function addApp(id){
 		if(e.code == "ENOENT")
 		{
 			log.error("Le dossier de l'application "+id+" n'existe pas");
+		}
+		else if(e.code == "ENOTDIR")
+		{
+			log.error("Le fichier "+id+" n'est pas un dossier");
 		}
 		else
 		{
@@ -71,6 +92,7 @@ function addApp(id){
 	{
 		appsAvaliable.push(app);
 		MineJS.getExpress().use("/app/"+id,express.static(__dirname+"/../apps/"+id+"/static"));
+		appsAvaliable[appsAvaliable.indexOf(app)].init()
 	}
 	else
 	{
@@ -134,9 +156,54 @@ function closeApp(user)
 	}
 }
 
+function remdirRecursiveSync(path) {
+  if( fs.existsSync(path) ) {
+      fs.readdirSync(path).forEach(function(file,index) {
+        var curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) {
+              remdirRecursiveSync(curPath);
+          } else {
+              fs.unlinkSync(curPath);
+          }
+      });
+      fs.rmdirSync(path);
+    }
+};
+
+function removeApp(id)
+{
+	try
+	{
+		remdirRecursiveSync(__dirname+"/../apps/"+id);
+	}
+	catch(e)
+	{
+		if(e.code == "ENOENT")
+		{
+			log.error("Le dossier d'applications n'existe pas");
+		}
+		else
+		{
+			console.trace(e)
+		}
+		return false;
+	}
+
+	appsAvaliable = [];
+	appsFiles = searchApps();
+	for(var i = 0; i<appsFiles.length; i++)
+	{
+		addApp(appsFiles[i]);
+	}
+}
+
 exports.init = init;
 exports.open = openApp;
 exports.close = closeApp;
+exports.add = addApp;
+exports.remove = removeApp;
+exports.searchApps = searchApps;
+exports.refreshApps = refreshApps;
 exports.getAppsAvaliable = function(){
 	return appsAvaliable;
 }

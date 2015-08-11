@@ -1,6 +1,6 @@
-var log = require(__dirname+"/../../core/Logger");
 var Application = require(__dirname+"/../../core/Application");
-var MinecraftServer = require(__dirname+"/../../core/MinecraftServer");
+var log = Application.get("Logger");
+var MinecraftServer = Application.get("MinecraftServer");
 
 var config = new Application.gui({
 	id: 			"config",
@@ -21,7 +21,7 @@ var config = new Application.gui({
 		user.socket.on("saveConfigApp",function(config){
 			MinecraftServer.setConfig(config);
 			MinecraftServer.saveConfig(config);
-			user.socket.emit("notif",{type:"info",message:"Il est nécéssaire de redémarrer le serveur pour actualiser les chanegments"});
+			user.socket.emit("notif",{type:"info",message:"Il est nécéssaire de redémarrer le serveur pour actualiser les changements"});
 			user.socket.emit("saveConfigApp",{success:true});
 		});
 	},

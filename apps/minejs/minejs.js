@@ -1,8 +1,13 @@
 var log = require(__dirname+"/../../core/Logger");
 var Application = require(__dirname+"/../../core/Application");
 var MineJS = require(__dirname+"/../../core/MineJS");
+var ApplicationManager = require(__dirname+"/../../core/ApplicationManager");
 var UsersManager = require(__dirname+"/../../core/UsersManager");
 var User = require(__dirname+"/../../core/User");
+var UploadManager = require(__dirname+"/../../core/UploadManager");
+var ncp = require(__dirname+"/../../core/node_modules/ncp").ncp;
+var unzip = require(__dirname+"/../../core/node_modules/unzip");
+var fs = require("fs");
 
 var config = new Application.gui({
 	id: 			"minejs",
@@ -71,6 +76,61 @@ var config = new Application.gui({
 		user.socket.on("refreshUsersMinejsApp",function(){
 			var users = UsersManager.getUsers();
 			user.socket.emit("refreshUsersMinejsApp",users);
+		});
+
+		user.socket.on("refreshAppsMinejsApp",function(){
+			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable());
+		});
+
+		user.socket.on("removeAppMinejsApp",function(app){
+			ApplicationManager.remove(app.id);
+			user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable());
+			MineJS.getIo().emit("avaliableApps",ApplicationManager.getAppsAvaliable());
+		});
+
+		user.socket.on("addAppMinejsApp",function(app){
+			UploadManager.getEmitter().on("uploading",onAddApp);
+			function onAddApp(data){
+				if(data.username == user.username)
+				{
+					UploadManager.getEmitter().once("uploaded",function(data){
+						if(data.file.extention == "zip")
+						{
+							user.socket.emit("installingAppMinejsApp",data.file.filename);
+							ncp(data.file.path,__dirname+"/../newApp.tmp.zip",function(err){
+								if(err)
+								{
+									log.error("Le fichier de l'application n'a pas été copié : "+err);
+									user.socket.emit("installedAppMinejsApp",{success:false});
+								}
+								else
+								{
+									fs.createReadStream(__dirname+"/../newApp.tmp.zip").pipe(unzip.Extract({ path: __dirname+"/.." })
+										.on("close",function(){
+											log.info("Installation d'une nouvelle application");
+											ApplicationManager.refreshApps();
+											try {
+												fs.unlinkSync(__dirname+"/../newApp.tmp.zip");
+											} catch (e) {
+												log.error("Impossible de supprimer l'archive temporaire : "+e);
+												return false;
+											}
+											MineJS.getIo().emit("avaliableApps",ApplicationManager.getAppsAvaliable());
+											user.socket.emit("refreshAppsMinejsApp",ApplicationManager.getAppsAvaliable());
+											user.socket.emit("installedAppMinejsApp",{success:true});
+										}));
+								}
+								fs.unlinkSync(data.file.path);
+							});
+						}
+						else
+						{
+							user.socket.emit("notif",{type:"error",message:"Le fichier envoyé n'est pas une archive ZIP"});
+						}
+					});
+				UploadManager.getEmitter().removeListener("uploading",onAddApp);
+				}
+			};
 		});
 	},
 

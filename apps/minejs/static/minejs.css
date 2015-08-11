@@ -47,3 +47,86 @@
 	color: #D3405F;
 	font-size: 25px;
 }
+
+#app-minejs .appList
+{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#app-minejs .appIcon
+{
+	padding: 5px;
+	width: 100px;
+	height: 100px;
+	margin: 10px;
+	transition: 0.5s all;
+	border: solid white 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#app-minejs .appIcon img
+{
+	width: 70px;
+}
+
+#app-minejs .appIcon.type-gui
+{
+	background-color: #61A4FF;
+	border: solid #61A4FF 5px;
+}
+
+#app-minejs .appIcon.type-back
+{
+	background-color: #FF9600;
+	border: solid #FF9600 5px;
+	line-height: 100px;
+}
+
+#app-minejs .appIcon p
+{
+	text-align: center;
+	font-weight: bold;
+}
+
+#app-minejs .appIcon:hover
+{
+	color: white;
+	background-color: {{application.style.primaryColor}} !important;
+	border-color: {{application.style.primaryColor}};
+}
+
+#app-minejs .inputFile
+{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	border: dashed lightgrey 5px;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+#app-minejs .inputFile p
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.center-cel
+{
+	text-align: center;
+}
+
+.only-input
+{
+	border-radius: 10px !important;
+}

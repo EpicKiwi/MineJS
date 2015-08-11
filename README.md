@@ -36,3 +36,6 @@ MineJS dépend des modules NodeJS suivants :
  * Socket.io
  * js-yaml
  * colors
+ * unzip
+ * ncp
+ * connect-busboy

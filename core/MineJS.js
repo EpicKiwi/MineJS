@@ -4,6 +4,7 @@ var http = require('http').Server(expressApp);
 var io = require('socket.io')(http);
 var fs = require("fs");
 var yaml = require("js-yaml");
+var busboy = require('connect-busboy');
 
 var log = require("./Logger");
 var SetupManager = require("./SetupManager");
@@ -11,7 +12,9 @@ var MinecraftServer = require("./MinecraftServer");
 var UsersManager = require("./UsersManager");
 var ApplicationManager = require("./ApplicationManager");
 var BroadcastManager = require("./BroadcastManager");
+var UploadManager = require("./UploadManager");
 var User = require("./User");
+var ServersManager = require("./ServersManager");
 
 var config = {};
 var version = "0.2.0-beta";
@@ -24,6 +27,12 @@ function init(){
 	loadConfig();
 	BroadcastManager.init();
 
+	log.info("Chargement des types de serveur")
+	ServersManager.init();
+
+	log.info("Initialisation du systeme d'upload");
+	UploadManager.init();
+
 	log.info("Initialisation du serveur Minecraft");
 	MinecraftServer.init();
 
@@ -34,6 +43,8 @@ function init(){
 	//Dossier des fichiers stiques (JS/CSS/IMG)
 	expressApp.use("/static",express.static(__dirname+"/static"));
 
+	expressApp.use(busboy());
+
 	//URL principal
 	expressApp.get("/",function(request,response){
 		response.sendFile(__dirname+"/html/index.html");
@@ -42,6 +53,10 @@ function init(){
 	//URL de debug non utilisée en prod
 	expressApp.get("/debug",function(request, response){
 		response.send(JSON.stringify(ApplicationManager.getAppsAvaliable()));
+	});
+
+	expressApp.post("/upload/:username",function(request,response){
+		UploadManager.upload(request,response);
 	});
 
 	//Initialisation des sockets

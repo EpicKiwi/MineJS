@@ -1,22 +1,22 @@
 function setApplication(pObj, pParams){
     pParams = pParams || {};
-    
-    if(!pParams.name || !pParams.init || !pParams.id){ 
+
+    if(!pParams.name || !pParams.init || !pParams.id){
         return false;
     }
 
     pObj.id = pParams.id;
-    pObj.name = pParams.name;               
+    pObj.name = pParams.name;
     pObj.description = pParams.description;
     pObj.init = pParams.init;
-    
+
     return true;
 }
 
 function ApplicationGui(pParams){
     pParams   = pParams || {};
     this.type = "gui";
-    
+
     if (!setApplication(this, pParams)){
         return false;
     }
@@ -25,13 +25,13 @@ function ApplicationGui(pParams){
     {
         pParams.showIcon = true;
     }
-    
+
     if(pParams.needLogin == undefined)
     {
         pParams.needLogin = true;
     }
 
-    this.icon       = pParams.icon || "default"; 
+    this.icon       = pParams.icon || "default";
     this.css        = pParams.css;
     this.html       = pParams.html;
     this.style      = pParams.style || {primaryColor: "#005AFF"};
@@ -58,11 +58,11 @@ function ApplicationGui(pParams){
 
 
 function ApplicationBack(pParams){
-    
+
     if (!setApplication(this, pParams)){
         return false;
     }
-    
+
     this.type = "back";
     this.getInfos = function(){
         return {
@@ -75,5 +75,10 @@ function ApplicationBack(pParams){
     };
 }
 
+function getLib(lib){
+  return require(__dirname+"/"+lib);
+}
+
 exports.back = ApplicationBack;
 exports.gui = ApplicationGui;
+exports.get = getLib;

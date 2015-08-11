@@ -118,6 +118,7 @@
 	margin-left: 10px;
 	margin-right: 10px;
 	height: 30px;
+	border: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -129,6 +130,12 @@
 #app .button.button-primary
 {
 	background-color: {{application.style.primaryColor}};
+	color: white;
+}
+
+#app .button.button-danger
+{
+	background-color: #FF5A00;
 	color: white;
 }
 
