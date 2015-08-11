@@ -73,7 +73,7 @@
 	<div id="tab-4" ng-show="tab == 4" class="tab" ng-controller="installServerSetupAppController">
 	<div class="content">
 		<h2>Version du serveur</h2>
-		<p>Séléctionnez la version du serveur minecraft que vous desirez. Seul le serveur vanilla est disponible pour le momment</p>
+		<p>Séléctionnez la version du serveur minecraft que vous desirez.</p>
 		<div class="big-selector">
 			<div class="row"><input type="text" class="extendField" ng-model="searchType" placeholder="Recherche"/></div>
 			<div class="row" ng-repeat="type in serverTypes | filter:searchType" ng-class="{active:selectedType == type}" ng-click="selectType(type)">{{type.name}}</div>

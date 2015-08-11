@@ -1,8 +1,0 @@
-id: direwolf20
-type: standard
-name: Dierwolf 20
-version: 1.6.1
-download: http://ftb.cursecdn.com/FTB2/modpacks/direwolf20_17/1_6_1/direwolf20_17-server.zip
-downloadType: application/zip
-downloadProtocol: http
-executable: FTBServer-1.7.10-1448.jar

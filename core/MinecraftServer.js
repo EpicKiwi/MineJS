@@ -42,35 +42,14 @@ function init()
 
 function searchExecutable()
 {
-	try
+	if(type)
 	{
-		var files = fs.readdirSync(getAbsolutePath());
+		return type.executable;
 	}
-	catch(e)
+	else
 	{
-		if(e.code == "ENOENT")
-		{
-			log.warn("Minecraft Le dossier "+folder+" n'exste pas, une installation est nécéssaire");
-		}
-		else
-		{
-			console.trace(e);
-		}
-		return false;
+			log.error("Aucun executable de serveur. Installez tout d'abort le serveur.");
 	}
-
-	for(var i = 0; i<files.length; i++)
-	{
-		if(files[i].search(/minecraft_server\.(.*)\.(exe|jar)/i) > -1)
-		{
-			executable = files[i];
-			version = files[i].replace(/minecraft_server\.(.*)\.(exe|jar)/i,"$1");
-			return true;
-		}
-	}
-
-	log.error("Aucun executable de serveur trouvé");
-
 }
 
 function run()
@@ -85,9 +64,9 @@ function run()
 	var line = "";
 	process.stdout.on("data",function(data){
 		line += data;
-		if(data.search(/\r\n/i) != -1)
+		if(line.search(/.*[\r\n]+/i) != -1)
 		{
-			line = line.replace(/(.*)\r\n/i,"$1");
+			line = line.replace(/(.*)[\r\n]+/i,"$1");
 			analyzeLine(line);
 			line = "";
 		}
@@ -220,15 +199,11 @@ function install(callback){
 	SetupManager.checkFolder(getAbsolutePath());
 	var confType = ServersManager.getTypeById(MineJS.getConfig().serverType);
 
-	if(MineJS.getConfig().gameServerAcceptEula)
-	{
-		log.info("Minecraft : EULA Automatiquement acceptée");
-		setEula(true);
-	}
-
 	DownloadManager.download(type,getAbsolutePath(),function(){
 		if(MineJS.getConfig().gameServerAcceptEula)
 		{
+			log.info("Minecraft : EULA Automatiquement acceptée");
+			setEula(true);
 			log.info("Minecraft : Génération de la configuration");
 			generateConfig(function(){
 				log.info("Minecraft : serveur opérationnel");
