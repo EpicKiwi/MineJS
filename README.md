@@ -40,3 +40,4 @@ MineJS dépend des modules NodeJS suivants :
  * unzip
  * ncp
  * connect-busboy
+ * unzip
