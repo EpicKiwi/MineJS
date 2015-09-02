@@ -9,7 +9,6 @@ var SetupManager = require("./SetupManager");
 var ServersManager = require("./ServersManager");
 
 var folder = "";							//Dossier contenant le serveur
-var executable = null;						//Executable du serveur
 var version = null;							//Version du serveur
 var ram = 2048;								//Ram alouée au serveur
 var process = null;							//Objet child-process associé au serveur
@@ -31,25 +30,12 @@ function init()
 {
 		folder = MineJS.getConfig().gameServerFolder;
 		loadConfig();
-		searchExecutable();
 		eventDispatcher();
 		type = ServersManager.getTypeById(MineJS.getConfig().serverType);
 		if(MineJS.getConfig().gameServerAutoStart)
 		{
 			run();
 		}
-}
-
-function searchExecutable()
-{
-	if(type)
-	{
-		return type.executable;
-	}
-	else
-	{
-			log.error("Aucun executable de serveur. Installez tout d'abort le serveur.");
-	}
 }
 
 function run()

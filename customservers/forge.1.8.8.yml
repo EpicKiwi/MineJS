@@ -1,0 +1,8 @@
+id: forge.1.8.8
+type: standard
+name: Forge 1.8.8
+version: 1.8.8
+download: https://dl.dropboxusercontent.com/u/50252996/MineJS/HostedLibraries/forge.1.8.zip
+downloadType: application/zip
+downloadProtocol: https
+executable: forge-1.8-11.14.3.1509-universal.jar
