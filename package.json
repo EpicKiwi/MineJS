@@ -1,0 +1,27 @@
+{
+  "name": "MineJS",
+  "version": "0.3.1",
+  "description": "Panel d'administration d'un serveur minecraft",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EpicKiwi/MineJS.git"
+  },
+  "author": "EpicKiwi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpicKiwi/MineJS/issues"
+  },
+  "dependencies": {
+    "color": "^0.11.1",
+    "connect-busboy": "0.0.2",
+    "express": "^4.13.4",
+    "js-yaml": "^3.5.2",
+    "ncp": "^2.0.0",
+    "socket.io": "^1.4.4",
+    "unzip": "^0.1.11"
+  }
+}
