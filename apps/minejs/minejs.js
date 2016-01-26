@@ -5,8 +5,8 @@ var ApplicationManager = require(__dirname+"/../../core/ApplicationManager");
 var UsersManager = require(__dirname+"/../../core/UsersManager");
 var User = require(__dirname+"/../../core/User");
 var UploadManager = require(__dirname+"/../../core/UploadManager");
-var ncp = require(__dirname+"/../../core/node_modules/ncp").ncp;
-var unzip = require(__dirname+"/../../core/node_modules/unzip");
+var ncp = require("ncp").ncp;
+var unzip = require("unzip");
 var fs = require("fs");
 
 var config = new Application.gui({
