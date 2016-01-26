@@ -1,6 +1,9 @@
 {
   "name": "MineJS",
   "version": "0.3.1",
+  "engines": {
+    "node": ">= 0.12.x"
+  },
   "description": "Panel d'administration d'un serveur minecraft",
   "main": "server.js",
   "scripts": {
