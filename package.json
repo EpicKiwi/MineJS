@@ -16,7 +16,7 @@
     "url": "https://github.com/EpicKiwi/MineJS/issues"
   },
   "dependencies": {
-    "color": "^0.11.1",
+    "colors": "^1.1.2",
     "connect-busboy": "0.0.2",
     "express": "^4.13.4",
     "js-yaml": "^3.5.2",
