@@ -3,7 +3,7 @@ var events = require('events');
 var fs = require('fs');
 
 var MineJS = require("./MineJS");
-var log = require("./logger");
+var log = require("./Logger");
 var UploadedFile = require("./UploadedFile");
 var SetupManager = require("./SetupManager");
 
