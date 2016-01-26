@@ -16,7 +16,9 @@ var UploadManager = require("./UploadManager");
 var User = require("./User");
 var ServersManager = require("./ServersManager");
 
-var config = {};
+var config = {
+	port: 3000
+};
 var version = "0.2.0-beta";
 
 function init(){
@@ -73,12 +75,12 @@ function init(){
 function loadConfig(){
 	try
 	{
-		config = yaml.safeLoad(fs.readFileSync(__dirname+"/../config/config.yml",{encoding:"utf8"}));
+		config = yaml.safeLoad(fs.readFileSync("./core/defaults/config.yml",{encoding:"utf8"}));
 	}
 	catch(e)
 	{
 		log.warn("Aucune configuration trouvée chargement de la configuration par défaut");
-		config = yaml.safeLoad(fs.readFileSync(__dirname+"/defaults/config.yml",{encoding:"utf8"}));
+		config = yaml.safeLoad(fs.readFileSync("./core/defaults/config.yml",{encoding:"utf8"}));
 	}
 }
 
