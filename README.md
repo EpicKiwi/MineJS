@@ -1,4 +1,9 @@
 # MineJS
+
+> Ce projet n'est plus maintenu depuis 2017
+
+> This project isn't maintained since 2017
+
 ## Introduction
 MineJS est un gestionnaire graphique de serveur minecraft. Il présente une interface agréable pour administrer son serveur sans toucher a la configuration ni aux commandes. Développé en Javascript avec NodeJS il se construit comme une façade entre le serveur et l'administrateur. L'installation permet de télécharger un serveur automatiquement et de le configurer, après cette installation l'administrateur démarre,arrête ou relance le serveur a l'aide d'une interface web disponible a l'adresse de son serveur minecraft mais sur le port donnée dans la configuration (80 par défaut). L’état du serveur et le nombre de joueur est donné en direct sur l'interface web en analysant les retour dans la console du serveur.
 ##Applications
